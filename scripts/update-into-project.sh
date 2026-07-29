@@ -8,10 +8,13 @@ SKIP_CURSOR="${SKIP_CURSOR:-0}"
 SKIP_CLAUDE="${SKIP_CLAUDE:-0}"
 SKIP_COPILOT="${SKIP_COPILOT:-0}"
 SKIP_AGENTS_MD="${SKIP_AGENTS_MD:-0}"
+# Skip app-root .architect/ stamp when set, or when
+# agent-system/architect-install.yaml has write_app_root_stamp: false
+NO_STAMP="${ARCHITECT_NO_APP_STAMP:-0}"
 
 if [[ -z "$TARGET" ]]; then
   echo "Usage: $0 /path/to/target-project" >&2
-  echo "Env: DRY_RUN=1 SKIP_CURSOR=1 SKIP_CLAUDE=1 SKIP_COPILOT=1 SKIP_AGENTS_MD=1" >&2
+  echo "Env: DRY_RUN=1 SKIP_CURSOR=1 SKIP_CLAUDE=1 SKIP_COPILOT=1 SKIP_AGENTS_MD=1 ARCHITECT_NO_APP_STAMP=1" >&2
   exit 1
 fi
 
@@ -24,6 +27,17 @@ VERSION="unknown"
 if [[ -f "$ROOT/VERSION" ]]; then
   VERSION="$(tr -d '[:space:]' < "$ROOT/VERSION")"
 fi
+
+should_write_app_stamp() {
+  if [[ "$NO_STAMP" == "1" ]]; then
+    return 1
+  fi
+  local policy="$TARGET/agent-system/architect-install.yaml"
+  if [[ -f "$policy" ]] && grep -Eq '^[[:space:]]*write_app_root_stamp:[[:space:]]*false[[:space:]]*$' "$policy"; then
+    return 1
+  fi
+  return 0
+}
 
 update_path() {
   local rel="$1"
@@ -92,12 +106,16 @@ if [[ "$SKIP_COPILOT" != "1" && -f "$ROOT/adapters/copilot/copilot-instructions.
   fi
 fi
 
-if [[ "$DRY_RUN" == "1" ]]; then
-  echo "DRY-RUN would write: .architect/library-version = $VERSION"
+if should_write_app_stamp; then
+  if [[ "$DRY_RUN" == "1" ]]; then
+    echo "DRY-RUN would write: .architect/library-version = $VERSION"
+  else
+    mkdir -p "$TARGET/.architect"
+    printf '%s' "$VERSION" > "$TARGET/.architect/library-version"
+    echo "STAMP: .architect/library-version = $VERSION"
+  fi
 else
-  mkdir -p "$TARGET/.architect"
-  printf '%s' "$VERSION" > "$TARGET/.architect/library-version"
-  echo "STAMP: .architect/library-version = $VERSION"
+  echo "STAMP skipped (ARCHITECT_NO_APP_STAMP / write_app_root_stamp: false)"
 fi
 
 echo

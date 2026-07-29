@@ -4,13 +4,27 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 TARGET="${1:-}"
 FORCE="${FORCE:-0}"
+# Skip app-root .architect/ stamp when set, or when
+# agent-system/architect-install.yaml has write_app_root_stamp: false
+NO_STAMP="${ARCHITECT_NO_APP_STAMP:-0}"
 
 if [[ -z "$TARGET" ]]; then
-  echo "Usage: FORCE=1 $0 /path/to/target-project" >&2
+  echo "Usage: FORCE=1 ARCHITECT_NO_APP_STAMP=1 $0 /path/to/target-project" >&2
   exit 1
 fi
 
 mkdir -p "$TARGET"
+
+should_write_app_stamp() {
+  if [[ "$NO_STAMP" == "1" ]]; then
+    return 1
+  fi
+  local policy="$TARGET/agent-system/architect-install.yaml"
+  if [[ -f "$policy" ]] && grep -Eq '^[[:space:]]*write_app_root_stamp:[[:space:]]*false[[:space:]]*$' "$policy"; then
+    return 1
+  fi
+  return 0
+}
 
 copy_path() {
   local rel="$1"
@@ -45,9 +59,13 @@ VERSION_VALUE="unknown"
 if [[ -f "$ROOT/VERSION" ]]; then
   VERSION_VALUE="$(tr -d '[:space:]' < "$ROOT/VERSION")"
 fi
-mkdir -p "$TARGET/.architect"
-printf '%s' "$VERSION_VALUE" > "$TARGET/.architect/library-version"
-echo "STAMP: .architect/library-version = $VERSION_VALUE"
+if should_write_app_stamp; then
+  mkdir -p "$TARGET/.architect"
+  printf '%s' "$VERSION_VALUE" > "$TARGET/.architect/library-version"
+  echo "STAMP: .architect/library-version = $VERSION_VALUE"
+else
+  echo "STAMP skipped (ARCHITECT_NO_APP_STAMP / write_app_root_stamp: false)"
+fi
 
 if [[ -f "$ROOT/adapters/claude-code/CLAUDE.md" ]]; then
   if [[ -e "$TARGET/CLAUDE.md" && "$FORCE" != "1" ]]; then

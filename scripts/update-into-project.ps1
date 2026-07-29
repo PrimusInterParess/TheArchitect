@@ -18,7 +18,10 @@ param(
   [switch]$SkipCopilot,
   [switch]$SkipClaude,
   [switch]$SkipAgentsMd,
-  [switch]$DryRun
+  [switch]$DryRun,
+  # Skip app-root .architect/ stamp (also: ARCHITECT_NO_APP_STAMP=1 or
+  # agent-system/architect-install.yaml write_app_root_stamp: false)
+  [switch]$NoStamp
 )
 
 $ErrorActionPreference = "Stop"
@@ -33,7 +36,22 @@ $version = if (Test-Path -LiteralPath $versionFile) {
   "unknown"
 }
 
+function Test-ShouldWriteAppStamp {
+  if ($NoStamp) { return $false }
+  if ($env:ARCHITECT_NO_APP_STAMP -eq "1") { return $false }
+  $policy = Join-Path $Target "agent-system\architect-install.yaml"
+  if (Test-Path -LiteralPath $policy) {
+    $raw = Get-Content -LiteralPath $policy -Raw
+    if ($raw -match '(?m)^\s*write_app_root_stamp\s*:\s*false\s*$') { return $false }
+  }
+  return $true
+}
+
 function Write-Stamp {
+  if (-not (Test-ShouldWriteAppStamp)) {
+    Write-Host "STAMP skipped (NoStamp / ARCHITECT_NO_APP_STAMP / write_app_root_stamp: false)"
+    return
+  }
   $stampDir = Join-Path $Target ".architect"
   $stamp = Join-Path $stampDir "library-version"
   if ($DryRun) {

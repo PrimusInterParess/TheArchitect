@@ -35,15 +35,48 @@ Slash: `/upgrade-architect`
 
 ### 1. Library version check
 
-1. Read `.architect/library-version` if present and root `VERSION` if present.
-2. Report both values.
-3. If the user has not updated library files yet, tell them to run one of:
-   - Submodule: `git submodule update --remote vendor/thearchitect`
-   - Copy install: `scripts/update-into-project.ps1` / `.sh` from the new
-     Architect checkout
-   - Clone: `git pull` / checkout the release tag  
-   Then re-invoke `/upgrade-architect`.
-4. If library files are already current, continue.
+Discover the installed library version in this order (first hit wins). Report
+the path used and the version string. **Do not assume fixed folder names** —
+each project may place the library anywhere.
+
+1. **Project policy (preferred):** `agent-system/architect-install.yaml`
+   - If `library_root` is set, read `<library_root>/VERSION`
+   - Honor `write_app_root_stamp` / `install_style` from the same file
+2. **Linked `core/`:** if `core/` is a junction or symlink, resolve it to its
+   target directory, then read sibling `VERSION` (parent of that `core/`)
+3. **In-tree library:** app-root `VERSION` when this workspace *is* the
+   Architect checkout (or a copy-install that copied `VERSION`)
+4. **Existing stamp only:** `.architect/library-version` if that file
+   already exists (never create it in this step)
+
+If none of the above yield a version, ask the user where the Architect
+checkout lives, or have them add `library_root` to
+`agent-system/architect-install.yaml`. Do not invent a path.
+
+`agent-system/architect-install.yaml` fields (when present):
+
+| Field | Meaning |
+|---|---|
+| `install_style` | `submodule` \| `standalone_clone` \| `junction` \| `copy_install` |
+| `library_root` | Project-specific relative (or absolute) path to the Architect checkout — **required for non-obvious layouts** |
+| `write_app_root_stamp` | `false` = never write `.architect/` at the app root |
+
+**Do not create `.architect/`** unless all of the following are true:
+
+- Install style is `copy_install` (or the user explicitly asked for a
+  copy-install stamp), **and**
+- `write_app_root_stamp` is not `false`
+
+Non-copy installs track version via the checkout’s `VERSION` (from policy
+and/or resolved `core/`). App-root stamps are Option B (copy-install) only.
+
+If the user has not updated library files yet, tell them to update the
+checkout at `library_root` (or the resolved `core/` target), using whatever
+install style they use (submodule update, `git pull` / tag checkout, or
+`scripts/update-into-project.*` for copy-install). Then re-invoke
+`/upgrade-architect`.
+
+If library files are already current, continue.
 
 Do not run install/update scripts unless the user explicitly authorizes shell
 file copies in this session.
@@ -115,3 +148,7 @@ Return a short summary only:
 - No silent overwrite of an unrelated project's prompt pack
 - Prefer regenerating from the approved spec over hand-editing dozens of
   agent files
+- Never create an app-root `.architect/` stamp for submodule, standalone,
+  or junction installs; stamps are copy-install (Option B) only
+- Honor `agent-system/architect-install.yaml` when present
+  (`write_app_root_stamp: false` wins)

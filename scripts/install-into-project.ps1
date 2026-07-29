@@ -5,7 +5,10 @@ param(
   [switch]$Force,
   [switch]$SkipCursorAdapters,
   [switch]$SkipCopilot,
-  [switch]$SkipClaude
+  [switch]$SkipClaude,
+  # Skip app-root .architect/ stamp (also: ARCHITECT_NO_APP_STAMP=1 or
+  # agent-system/architect-install.yaml write_app_root_stamp: false)
+  [switch]$NoStamp
 )
 
 $ErrorActionPreference = "Stop"
@@ -16,6 +19,17 @@ if (-not $Target) {
   $Target = Resolve-Path -LiteralPath $TargetPath
 }
 $Target = $Target.Path
+
+function Test-ShouldWriteAppStamp {
+  if ($NoStamp) { return $false }
+  if ($env:ARCHITECT_NO_APP_STAMP -eq "1") { return $false }
+  $policy = Join-Path $Target "agent-system\architect-install.yaml"
+  if (Test-Path -LiteralPath $policy) {
+    $raw = Get-Content -LiteralPath $policy -Raw
+    if ($raw -match '(?m)^\s*write_app_root_stamp\s*:\s*false\s*$') { return $false }
+  }
+  return $true
+}
 
 function Copy-Tree {
   param([string]$Relative, [switch]$Optional)
@@ -57,10 +71,15 @@ $version = if (Test-Path -LiteralPath $versionFile) {
 } else {
   "unknown"
 }
-$stampDir = Join-Path $Target ".architect"
-New-Item -ItemType Directory -Force -Path $stampDir | Out-Null
-Set-Content -LiteralPath (Join-Path $stampDir "library-version") -Value $version -NoNewline
-Write-Host "STAMP: .architect/library-version = $version"
+if (Test-ShouldWriteAppStamp) {
+  $stampDir = Join-Path $Target ".architect"
+  New-Item -ItemType Directory -Force -Path $stampDir | Out-Null
+  Set-Content -LiteralPath (Join-Path $stampDir "library-version") -Value $version -NoNewline
+  Write-Host "STAMP: .architect/library-version = $version"
+}
+else {
+  Write-Host "STAMP skipped (NoStamp / ARCHITECT_NO_APP_STAMP / write_app_root_stamp: false)"
+}
 
 if (-not $SkipCursorAdapters) {
   Copy-Tree ".cursor\skills"

@@ -2,7 +2,7 @@
 
 Use this when you want Architect workflows inside an existing application repo.
 
-## Option A � Clone as a standalone toolkit
+## Option A — Clone as a standalone toolkit
 
 ```bash
 git clone <YOUR_REPO_URL> thearchitect
@@ -10,6 +10,11 @@ cd thearchitect
 ```
 
 Open the folder in your AI IDE and follow `AGENTS.md`.
+
+**Do not** create an app-root `.architect/` stamp for Option A. Version comes
+from the clone’s `VERSION` file. If an app keeps a separate checkout and links
+`core/` (junction/symlink) or otherwise points at that checkout, add a tracked
+policy with that project’s `library_root` — see **Install policy** below.
 
 ## Option B � Copy portable files into a target project
 
@@ -38,7 +43,12 @@ This copies:
 
 It does **not** overwrite existing target files unless you pass `-Force`.
 
-## Option C � Git submodule
+Copy-install writes `.architect/library-version` at the app root by default
+(Option B only). Skip the stamp with `-NoStamp` (PowerShell),
+`ARCHITECT_NO_APP_STAMP=1` (bash/env), or
+`write_app_root_stamp: false` in `agent-system/architect-install.yaml`.
+
+## Option C — Git submodule
 
 ```bash
 cd /path/to/your/app
@@ -49,6 +59,32 @@ Then point your IDE instructions at:
 
 - `vendor/thearchitect/AGENTS.md`
 - `vendor/thearchitect/core/workflows/agent-system-builder.md`
+
+**Do not** stamp the app root for submodules. Use `<submodule-path>/VERSION`
+(or set `library_root` in the install policy).
+
+## Install policy (recommended for non-copy installs)
+
+For standalone clone, junction/symlink, or submodule layouts, add a tracked
+policy so `/upgrade-architect` and scripts never invent an app-root stamp.
+`library_root` must be whatever path **this** project uses:
+
+```yaml
+# agent-system/architect-install.yaml
+install_style: junction   # or standalone_clone | submodule | copy_install
+library_root: <path-to-architect-checkout>
+write_app_root_stamp: false
+```
+
+Schema: `schemas/architect-install.schema.json`. Example:
+`examples/architect-install.junction.yaml`.
+
+If a stray `.architect/` appeared after an older upgrade, delete it and ignore
+it (`.git/info/exclude` or `.gitignore`).
+
+Version discovery does **not** hardcode folder names. It uses (in order)
+policy `library_root`, a resolved `core/` link target, in-tree `VERSION`,
+then an existing stamp only.
 
 ## After install
 
@@ -67,7 +103,7 @@ Bump `VERSION` in this repo when you publish. Consumers update as follows.
 cd /path/to/your/app
 git submodule update --remote vendor/thearchitect
 # or pin a release tag:
-# cd vendor/thearchitect && git fetch && git checkout v0.2.0
+# cd vendor/thearchitect && git fetch && git checkout v0.3.0
 ```
 
 Point IDE instructions at `vendor/thearchitect/AGENTS.md` so you never copy
@@ -78,7 +114,7 @@ library files into the app root.
 ```bash
 cd thearchitect
 git pull
-# or: git fetch && git checkout v0.2.0
+# or: git fetch && git checkout v0.3.0
 ```
 
 ### Option B (copied into an app) — use the update script
@@ -103,7 +139,8 @@ What the update script does:
 
 - Refreshes `core/`, `schemas/`, `references/source-prompts/`, `scripts/`,
   adapters, `AGENTS.md`, `VERSION`
-- Writes `.architect/library-version`
+- Writes `.architect/library-version` (copy-install stamp; skip with
+  `-NoStamp` / `ARCHITECT_NO_APP_STAMP=1` / `write_app_root_stamp: false`)
 - **Does not touch** `agent-system/` (your generated fleet stays intact)
 
 If you customized `AGENTS.md` / `CLAUDE.md` / Cursor rules in the app, review

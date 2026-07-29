@@ -254,14 +254,25 @@ docs).
 
 #### Step 0 — Identify how Architect was installed
 
+Prefer `agent-system/architect-install.yaml` when present (`install_style`,
+`library_root`). Otherwise infer from layout clues — paths vary by project:
+
 | Clue in the app repo | Install style |
 |---|---|
-| `vendor/thearchitect/` (git submodule) | Submodule |
-| `core/workflows/`, `AGENTS.md`, `.cursor/commands/` at app root | Copy-install |
-| Only a separate `thearchitect` clone; app points at it | Standalone toolkit |
+| Git submodule containing Architect `AGENTS.md` / `core/` | Submodule |
+| `core/workflows/`, `AGENTS.md`, `.cursor/commands/` copied at app root | Copy-install |
+| `core/` is a junction/symlink into another checkout | Junction / linked clone |
+| Separate Architect clone; app only references it | Standalone toolkit |
 
-Optional: compare `.architect/library-version` (if present) with this repo’s
-[`VERSION`](VERSION).
+Version discovery (first hit; **no hardcoded folder names**):
+
+1. Policy `library_root` → `VERSION`
+2. Resolved `core/` link → sibling `VERSION`
+3. App-root `VERSION` when present
+4. Existing `.architect/library-version` only (copy-install; do not create)
+
+Optional for copy-install: compare `.architect/library-version` with this
+repo’s [`VERSION`](VERSION).
 
 #### Step 1 — Update library files (do this first)
 
@@ -317,11 +328,12 @@ Or say: `Upgrade The Architect and refresh the generated agent fleet`.
 
 That workflow:
 
-1. Checks library version stamps when present
+1. Checks library version (checkout `VERSION` / policy; stamp only if already present)
 2. Re-scans project skills/docs procedures (brownfield/hybrid)
 3. Regenerates `agent-system/` agents + governance from the approved spec
 4. Preserves `agent-system/project-specification.md` (and plan/mapping if present)
 5. Does not implement application features
+6. Does **not** create `.architect/` unless copy-install stamps are opted in
 
 #### Step 4 — If `/upgrade-architect` is blocked
 
@@ -346,7 +358,7 @@ Optional review: `/audit`.
 |---|---|
 | Library: `core/`, `schemas/`, `AGENTS.md`, Cursor/Claude/Copilot adapters | `agent-system/project-specification.md` |
 | Generated: `agent-system/agents/*`, governance, protocols (via `/upgrade-architect`) | `implementation-plan.md` / `repository-task-mapping.md` if present |
-| `.architect/library-version` stamp | Application source code outside library paths |
+| `.architect/library-version` (copy-install / Option B only) | Application source code; non-copy installs use checkout `VERSION` |
 
 **Do not** use `install-into-project -Force` for routine upgrades — that is a
 blunt reinstall. Prefer `update-into-project` + `/upgrade-architect`.
