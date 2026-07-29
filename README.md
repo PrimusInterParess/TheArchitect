@@ -328,12 +328,13 @@ Or say: `Upgrade The Architect and refresh the generated agent fleet`.
 
 That workflow:
 
-1. Checks library version (checkout `VERSION` / policy; stamp only if already present)
-2. Re-scans project skills/docs procedures (brownfield/hybrid)
-3. Regenerates `agent-system/` agents + governance from the approved spec
-4. Preserves `agent-system/project-specification.md` (and plan/mapping if present)
-5. Does not implement application features
-6. Does **not** create `.architect/` unless copy-install stamps are opted in
+1. Detects install style; auto-writes `agent-system/architect-install.yaml`
+2. Checks library version; removes stray `.architect/` on non-copy installs
+3. Re-scans project skills/docs procedures (brownfield/hybrid)
+4. Regenerates `agent-system/` agents + governance from the approved spec
+5. Preserves `agent-system/project-specification.md` (and plan/mapping if present)
+6. Does not implement application features
+7. Does **not** create `.architect/` unless copy-install stamps are opted in
 
 #### Step 4 — If `/upgrade-architect` is blocked
 

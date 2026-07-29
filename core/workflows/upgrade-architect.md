@@ -33,50 +33,63 @@ Slash: `/upgrade-architect`
 
 ## Steps
 
-### 1. Library version check
+### 1. Library version check + auto install policy
 
-Discover the installed library version in this order (first hit wins). Report
-the path used and the version string. **Do not assume fixed folder names** —
-each project may place the library anywhere.
+**Goal:** detect install style automatically, write
+`agent-system/architect-install.yaml` when possible, never invent hardcoded
+folder names, never create an app-root stamp for non-copy installs.
 
-1. **Project policy (preferred):** `agent-system/architect-install.yaml`
-   - If `library_root` is set, read `<library_root>/VERSION`
-   - Honor `write_app_root_stamp` / `install_style` from the same file
-2. **Linked `core/`:** if `core/` is a junction or symlink, resolve it to its
-   target directory, then read sibling `VERSION` (parent of that `core/`)
-3. **In-tree library:** app-root `VERSION` when this workspace *is* the
-   Architect checkout (or a copy-install that copied `VERSION`)
-4. **Existing stamp only:** `.architect/library-version` if that file
-   already exists (never create it in this step)
+#### 1a. Detect install style (path-neutral)
 
-If none of the above yield a version, ask the user where the Architect
-checkout lives, or have them add `library_root` to
-`agent-system/architect-install.yaml`. Do not invent a path.
+Inspect the app workspace (do not assume folder names):
 
-`agent-system/architect-install.yaml` fields (when present):
+| Detection | `install_style` | `library_root` |
+|---|---|---|
+| `core/` is a junction or symlink | `junction` | Parent of the resolved `core/` target (prefer path relative to app root) |
+| `.gitmodules` entry whose path contains Architect `AGENTS.md` + `core/workflows/` | `submodule` | That submodule path |
+| `core/workflows/` is a real (non-link) directory at app root with copied library files | `copy_install` | `.` (or omit) |
+| Workspace root *is* an Architect checkout and has no separate app fleet | `standalone_clone` | `.` |
+| `architect-install.yaml` already exists | Keep existing values | Prefer existing `library_root` |
 
-| Field | Meaning |
-|---|---|
-| `install_style` | `submodule` \| `standalone_clone` \| `junction` \| `copy_install` |
-| `library_root` | Project-specific relative (or absolute) path to the Architect checkout — **required for non-obvious layouts** |
-| `write_app_root_stamp` | `false` = never write `.architect/` at the app root |
+If detection cannot find a root and no policy exists, ask the user once for
+`library_root`. Do not invent a path.
 
-**Do not create `.architect/`** unless all of the following are true:
+#### 1b. Auto-write / refresh policy (do this; do not ask)
 
-- Install style is `copy_install` (or the user explicitly asked for a
-  copy-install stamp), **and**
-- `write_app_root_stamp` is not `false`
+When `agent-system/` exists (fleet already generated):
 
-Non-copy installs track version via the checkout’s `VERSION` (from policy
-and/or resolved `core/`). App-root stamps are Option B (copy-install) only.
+1. If `agent-system/architect-install.yaml` is **missing** and detection
+   produced `library_root` + `install_style`, **create it** with:
+   - detected `install_style`
+   - detected `library_root`
+   - `write_app_root_stamp: false` for `junction` / `submodule` /
+     `standalone_clone`
+   - `write_app_root_stamp: true` only for `copy_install`
+2. If the file **exists**, do not overwrite a user-set `library_root`. You may
+   set `write_app_root_stamp: false` when style is non-copy and the field is
+   missing or incorrectly `true`.
+3. Report whether the policy was created, updated, or left as-is.
 
-If the user has not updated library files yet, tell them to update the
-checkout at `library_root` (or the resolved `core/` target), using whatever
-install style they use (submodule update, `git pull` / tag checkout, or
-`scripts/update-into-project.*` for copy-install). Then re-invoke
-`/upgrade-architect`.
+#### 1c. Version string (first hit wins)
 
-If library files are already current, continue.
+1. Policy `library_root` → `VERSION`
+2. Resolved `core/` link → sibling `VERSION`
+3. App-root `VERSION` when present
+4. Existing `.architect/library-version` only (read; never create here)
+
+Report path + version. If library files are not yet updated, tell the user to
+update that checkout, then re-invoke `/upgrade-architect`.
+
+#### 1d. Stamp rules + cleanup
+
+**Do not create `.architect/`** unless `install_style` is `copy_install` **and**
+`write_app_root_stamp` is not `false`.
+
+For non-copy styles (`junction` / `submodule` / `standalone_clone`):
+
+- If `.architect/` exists at the app root (stray stamp from an older upgrade),
+  **delete it** and note that in the upgrade summary.
+- Do not edit `.gitignore` / excludes unless the user asks.
 
 Do not run install/update scripts unless the user explicitly authorizes shell
 file copies in this session.
@@ -128,11 +141,13 @@ these upgrade rules:
 Return a short summary only:
 
 1. Library version before → after (if known)
-2. Spec path + approval status
-3. Procedure adaptation mode (`FOLLOW` / `COMPOSE` / `BRIDGE` / `NONE`)
-4. Files created / updated / skipped under `agent-system/`
-5. Verification result
-6. Next step: `/operate` (or `/audit` if they want a review pass)
+2. Install policy: created / updated / unchanged (`install_style`, `library_root`)
+3. Stamp cleanup: deleted `.architect/` or n/a
+4. Spec path + approval status
+5. Procedure adaptation mode (`FOLLOW` / `COMPOSE` / `BRIDGE` / `NONE`)
+6. Files created / updated / skipped under `agent-system/`
+7. Verification result
+8. Next step: `/operate` (or `/audit` if they want a review pass)
 
 ## Result status
 
@@ -150,5 +165,7 @@ Return a short summary only:
   agent files
 - Never create an app-root `.architect/` stamp for submodule, standalone,
   or junction installs; stamps are copy-install (Option B) only
-- Honor `agent-system/architect-install.yaml` when present
-  (`write_app_root_stamp: false` wins)
+- Auto-create `agent-system/architect-install.yaml` when install style can be
+  detected; never invent `library_root` paths
+- Honor existing `architect-install.yaml` `library_root` (do not clobber)
+- Remove stray app-root `.architect/` on non-copy installs

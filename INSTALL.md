@@ -63,11 +63,18 @@ Then point your IDE instructions at:
 **Do not** stamp the app root for submodules. Use `<submodule-path>/VERSION`
 (or set `library_root` in the install policy).
 
-## Install policy (recommended for non-copy installs)
+## Install policy (auto-managed)
 
-For standalone clone, junction/symlink, or submodule layouts, add a tracked
-policy so `/upgrade-architect` and scripts never invent an app-root stamp.
-`library_root` must be whatever path **this** project uses:
+`/upgrade-architect` **creates or refreshes**
+`agent-system/architect-install.yaml` when it can detect the layout
+(junction/symlink `core/`, submodule path, copy-install, etc.). You normally
+do not create this file by hand.
+
+It will also delete a stray app-root `.architect/` on non-copy installs.
+
+If detection cannot find the checkout, it asks once for `library_root`.
+
+Manual template (only if you need to set it yourself):
 
 ```yaml
 # agent-system/architect-install.yaml
@@ -78,9 +85,6 @@ write_app_root_stamp: false
 
 Schema: `schemas/architect-install.schema.json`. Example:
 `examples/architect-install.junction.yaml`.
-
-If a stray `.architect/` appeared after an older upgrade, delete it and ignore
-it (`.git/info/exclude` or `.gitignore`).
 
 Version discovery does **not** hardcode folder names. It uses (in order)
 policy `library_root`, a resolved `core/` link target, in-tree `VERSION`,
