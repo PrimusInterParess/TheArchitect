@@ -1,0 +1,19 @@
+# Generated / temporary during testing
+agent-system/
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
+
+# Common build outputs (optional, safe defaults)
+node_modules/
+dist/
+build/
+bin/
+obj/
+.vscode/
+.idea/
+*.user
+*.log
+*.tmp
+.vs/
