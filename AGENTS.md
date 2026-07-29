@@ -34,6 +34,7 @@ User asks to discover a project, build an agent fleet, run The Architect / Promp
 | `/extend-fleet` | `core/workflows/extend-fleet.md` |
 | `/audit` | `core/workflows/audit-prompts.md` |
 | `/operate` | `core/workflows/operate-agent-system.md` |
+| `/upgrade-architect` | `core/workflows/upgrade-architect.md` |
 
 ## IDE adapters
 

@@ -36,9 +36,18 @@ copy_path "schemas"
 copy_path "examples"
 copy_path "scripts"
 copy_path "references/source-prompts"
+copy_path "VERSION"
 copy_path ".cursor/skills"
 copy_path ".cursor/commands"
 copy_path ".cursor/rules"
+
+VERSION_VALUE="unknown"
+if [[ -f "$ROOT/VERSION" ]]; then
+  VERSION_VALUE="$(tr -d '[:space:]' < "$ROOT/VERSION")"
+fi
+mkdir -p "$TARGET/.architect"
+printf '%s' "$VERSION_VALUE" > "$TARGET/.architect/library-version"
+echo "STAMP: .architect/library-version = $VERSION_VALUE"
 
 if [[ -f "$ROOT/adapters/claude-code/CLAUDE.md" ]]; then
   if [[ -e "$TARGET/CLAUDE.md" && "$FORCE" != "1" ]]; then
@@ -62,3 +71,4 @@ fi
 echo
 echo "Install complete into: $TARGET"
 echo "Next: open the project and run /architect or say 'Start agent system discovery'"
+echo "Later updates: bash scripts/update-into-project.sh \"$TARGET\""

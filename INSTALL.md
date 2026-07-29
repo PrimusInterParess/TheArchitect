@@ -57,6 +57,76 @@ Then point your IDE instructions at:
 3. Complete discovery ? `APPROVAL REQUIRED` ? approve.
 4. Run `/generate-prompt-pack` (or equivalent) for phase 2.
 
+## Updating to a new library version
+
+Bump `VERSION` in this repo when you publish. Consumers update as follows.
+
+### Easiest ongoing: Option C (submodule) — recommended for teams
+
+```bash
+cd /path/to/your/app
+git submodule update --remote vendor/thearchitect
+# or pin a release tag:
+# cd vendor/thearchitect && git fetch && git checkout v0.2.0
+```
+
+Point IDE instructions at `vendor/thearchitect/AGENTS.md` so you never copy
+library files into the app root.
+
+### Option A (standalone clone)
+
+```bash
+cd thearchitect
+git pull
+# or: git fetch && git checkout v0.2.0
+```
+
+### Option B (copied into an app) — use the update script
+
+From a checkout of the **new** Architect version:
+
+```powershell
+powershell -File scripts/update-into-project.ps1 -TargetPath "C:\path\to\your\app"
+```
+
+```bash
+bash scripts/update-into-project.sh /path/to/your/app
+```
+
+Preview first:
+
+```powershell
+powershell -File scripts/update-into-project.ps1 -TargetPath "C:\path\to\your\app" -DryRun
+```
+
+What the update script does:
+
+- Refreshes `core/`, `schemas/`, `references/source-prompts/`, `scripts/`,
+  adapters, `AGENTS.md`, `VERSION`
+- Writes `.architect/library-version`
+- **Does not touch** `agent-system/` (your generated fleet stays intact)
+
+If you customized `AGENTS.md` / `CLAUDE.md` / Cursor rules in the app, review
+the git diff after update (or pass `-SkipAgentsMd` / `-SkipClaude` /
+`-SkipCursorAdapters`).
+
+Do **not** use `install-into-project` with `-Force` for routine upgrades — that
+is a blunt reinstall. Prefer `update-into-project`.
+
+### Refresh generated agent docs (required for new core rules)
+
+Updating library files does **not** rewrite `agent-system/agents/*.md`. After
+the library update, in the target project run:
+
+```text
+/upgrade-architect
+```
+
+That regenerates the prompt pack from the approved specification using the new
+`core/` workflows (procedure adaptation, operating principles, etc.) while
+preserving `project-specification.md`.
+
 ## Uninstall
 
-Delete the copied folders/files listed above. If you used a submodule, remove the submodule entry normally.
+Delete the copied folders/files listed above, plus `.architect/` if present.
+If you used a submodule, remove the submodule entry normally.

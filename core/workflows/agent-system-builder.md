@@ -15,6 +15,8 @@ Also see: [../slash-commands.md](../slash-commands.md)
 
 | Intent signals | Mode | Action |
 |---|---|---|
+| `/update-context` | Phase 2 | [update-context-mapping.md](update-context-mapping.md) |
+| `/upgrade-architect` | Phase 2 | [upgrade-architect.md](upgrade-architect.md) — refresh fleet after library update |
 | `/architect`, start Architect, Prompt Factory | Router | This file |
 | `/discover`, greenfield discovery | `DISCOVER_PROJECT` | [project-discovery.md](project-discovery.md) (ask A/B/C if needed) |
 | `/brownfield`, analyze existing repo | Brownfield | [brownfield-research.md](brownfield-research.md) |

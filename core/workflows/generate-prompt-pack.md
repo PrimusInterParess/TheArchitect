@@ -114,7 +114,8 @@ In `SAVE` modes:
 6. Do not overwrite an unrelated existing prompt pack silently. If
    `manifest.yaml` identifies another project, stop and report the conflict.
 7. Update an existing pack for the same project only when the requested mode
-   authorizes it; report files added or replaced.
+   authorizes it; report files added or replaced. `/upgrade-architect`
+   authorizes a same-project refresh after a library update.
 8. If file-writing tools are unavailable, stop with
    `PROMPT_PACK_BLOCKED` and explain that `PREVIEW` is available. Do not pretend
    chat output is a saved prompt pack.

@@ -230,11 +230,25 @@ powershell -File scripts/install-into-project.ps1 -TargetPath "C:\path\to\your\a
 bash scripts/install-into-project.sh /path/to/your/app
 ```
 
+### Update an installed copy
+
+Bump [`VERSION`](VERSION) when you release. Consumers:
+
+| Install style | Update |
+|---|---|
+| Submodule (`vendor/thearchitect`) | `git submodule update --remote`, then **`/upgrade-architect`** |
+| Standalone clone | `git pull` / checkout a tag, then **`/upgrade-architect`** in each app that has a fleet |
+| Copied into an app | `scripts/update-into-project.*`, then **`/upgrade-architect`** in the app |
+
+Details: [`INSTALL.md`](INSTALL.md) → **Updating to a new library version**.
+
 ### Publish for others
 
-1. Push this repo to GitHub/GitLab.
-2. Users clone it or run the install script into their app.
-3. Point them at `INSTALL.md` and the slash-command table below.
+1. Push this repo to GitHub/GitLab (tag releases that match `VERSION`).
+2. Prefer telling teams to use a **git submodule** so library file updates are one command.
+3. Tell them every library update is followed by **`/upgrade-architect`** so generated agent docs match new `core/` rules.
+4. For copy installs, point them at `scripts/update-into-project.*` and `INSTALL.md`.
+5. Point them at the slash-command table below.
 
 ---
 
@@ -243,6 +257,7 @@ bash scripts/install-into-project.sh /path/to/your/app
 ```text
 thearchitect/
 ??? AGENTS.md
+??? VERSION
 ??? LICENSE
 ??? INSTALL.md
 ??? CONTRIBUTING.md
@@ -279,6 +294,8 @@ thearchitect/
 | `/extend-fleet` | Add agents to an existing pack |
 | `/audit` | Review prompts / packs |
 | `/operate` | Orchestrate fleet: plan/map/implement via Architect + Task specialists |
+| `/update-context` | Refresh where context artifacts live |
+| `/upgrade-architect` | After a library update: regenerate `agent-system/` agent docs from the approved spec |
 
 Full map: [`core/slash-commands.md`](core/slash-commands.md)  
 Cursor wiring: [`.cursor/commands/`](.cursor/commands/) and [`adapters/cursor/README.md`](adapters/cursor/README.md)

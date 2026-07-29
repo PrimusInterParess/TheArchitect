@@ -13,6 +13,7 @@ When the user types a slash command or an equivalent phrase, load the matching w
 | `/audit` | AUDIT_PROMPTS, review agent prompts | [workflows/audit-prompts.md](workflows/audit-prompts.md) |
 | `/operate` | operate agents, delegate, handoff | [workflows/operate-agent-system.md](workflows/operate-agent-system.md) |
 | `/update-context` | refresh where context artifacts live | [workflows/update-context-mapping.md](workflows/update-context-mapping.md) |
+| `/upgrade-architect` | refresh fleet after library update, sync agent prompts | [workflows/upgrade-architect.md](workflows/upgrade-architect.md) |
 | `/architect` | start The Architect, Prompt Factory | [workflows/agent-system-builder.md](workflows/agent-system-builder.md) |
 
 ## Rules
@@ -27,3 +28,6 @@ When the user types a slash command or an equivalent phrase, load the matching w
 6. Brownfield/Hybrid discovery and fleet generation must detect and adapt to
    existing project agent/skills/documentation procedures per
    [workflows/existing-operating-procedures.md](workflows/existing-operating-procedures.md).
+7. After a library update, use `/upgrade-architect` to regenerate
+   `agent-system/` prompts from the approved specification so agent docs match
+   current `core/` rules. Library file copy alone does not rewrite the fleet.

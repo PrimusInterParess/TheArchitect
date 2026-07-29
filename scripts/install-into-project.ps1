@@ -48,7 +48,19 @@ Copy-Tree "examples"
 Copy-Tree "scripts"
 Copy-Tree "references/source-prompts"
 Copy-Tree "INSTALL.md" -Optional
+Copy-Tree "VERSION" -Optional
 Copy-Tree "core\slash-commands.md" -Optional
+
+$versionFile = Join-Path $Root "VERSION"
+$version = if (Test-Path -LiteralPath $versionFile) {
+  (Get-Content -LiteralPath $versionFile -Raw).Trim()
+} else {
+  "unknown"
+}
+$stampDir = Join-Path $Target ".architect"
+New-Item -ItemType Directory -Force -Path $stampDir | Out-Null
+Set-Content -LiteralPath (Join-Path $stampDir "library-version") -Value $version -NoNewline
+Write-Host "STAMP: .architect/library-version = $version"
 
 if (-not $SkipCursorAdapters) {
   Copy-Tree ".cursor\skills"
@@ -85,3 +97,4 @@ if (-not $SkipCopilot) {
 Write-Host ""
 Write-Host "Install complete into: $Target"
 Write-Host "Next: open the project and run /architect or say 'Start agent system discovery'"
+Write-Host "Later updates: powershell -File scripts/update-into-project.ps1 -TargetPath `"$Target`""

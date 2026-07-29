@@ -22,6 +22,7 @@ Edit behavior in `core/`, not in the wrappers (except Cursor `description` trigg
 | `/audit` | `audit.md` |
 | `/operate` | `operate.md` |
 | `/update-context` | `update-context.md` |
+| `/upgrade-architect` | `upgrade-architect.md` |
 
 If a command does not appear, reload the window or ensure this repo (or an install that copied `.cursor/commands`) is the workspace root.
 

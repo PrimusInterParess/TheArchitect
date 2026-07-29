@@ -41,13 +41,15 @@ $requiredCore = @(
   "create-agent.md",
   "extend-fleet.md",
   "audit-prompts.md",
-  "operate-agent-system.md"
+  "operate-agent-system.md",
+  "upgrade-architect.md",
+  "update-context-mapping.md"
 )
 
 $requiredCommands = @(
   "architect.md", "discover.md", "brownfield.md", "hybrid.md",
   "generate-prompt-pack.md", "create-agent.md", "extend-fleet.md",
-  "audit.md", "operate.md"
+  "audit.md", "operate.md", "upgrade-architect.md", "update-context.md"
 )
 
 if (-not (Test-Path -LiteralPath $CoreDir)) {
