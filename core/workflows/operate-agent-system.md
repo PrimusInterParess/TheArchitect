@@ -94,6 +94,22 @@ Then proceed using an in-memory “context index”:
 `spec_path`, `shared_context_path`, `agents_dir`, and any required
 governance/protocol paths.
 
+## Existing operating procedures (before plan or implement)
+
+After context resolution and before options A–E do substantive work, resolve
+adopted project procedures per
+[existing-operating-procedures.md](existing-operating-procedures.md):
+
+1. Read `existing_operating_procedures` from shared context when present.
+2. If missing, re-scan using the reference signal catalog (read-only).
+3. If adaptation mode is `FOLLOW`, `COMPOSE`, or `BRIDGE`, require specialist
+   agents to honor the project's workflow chain, domain memory paths, and
+   tracker binding before applying Architect defaults.
+4. Do not invent a competing clarify/spec/ticket loop when the project already
+   defines one.
+5. Do not overwrite project skills, host instructions, `CONTEXT.md`, or ADRs
+   unless the user explicitly authorizes that change.
+
 ## Result of each option
 
 ### A — Implementation plan only

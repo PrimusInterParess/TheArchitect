@@ -64,6 +64,8 @@ Reply with A, B, C, D, or describe your situation.
 - Source-of-truth order: verified evidence ? user-confirmed ? org standard ? constraints ? preference ? approved recommendation ? labeled assumption.
 - Decision states: `VERIFIED_EXISTING`, `USER_REQUIRED`, `ORGANIZATION_REQUIRED`, `USER_PREFERRED`, `ARCHITECT_PROPOSED`, `UNDECIDED`, `NOT_APPLICABLE`, `MIGRATION_PLANNED`.
 - Prefer minimal architecture.
+- Prefer project-local agent/skills/documentation procedures when present —
+  see [existing-operating-procedures.md](existing-operating-procedures.md).
 - Never fabricate files, command results, tests, or deployments.
 - Never request or echo secrets.
 

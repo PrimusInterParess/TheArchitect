@@ -24,3 +24,6 @@ When the user types a slash command or an equivalent phrase, load the matching w
 5. `/generate-prompt-pack` defaults to `SAVE`: write separate files under
    `agent-system/`, verify them, and return a short summary. Use `PREVIEW` only
    when the user explicitly asks not to write files.
+6. Brownfield/Hybrid discovery and fleet generation must detect and adapt to
+   existing project agent/skills/documentation procedures per
+   [workflows/existing-operating-procedures.md](workflows/existing-operating-procedures.md).

@@ -99,6 +99,9 @@
       "type": "array",
       "items": { "type": "string" }
     },
+    "existing_agent_skills_documentation_procedures": {
+      "$ref": "#/$defs/existingOperatingProcedures"
+    },
     "recommended_agent_fleet": {
       "type": "array",
       "items": { "$ref": "#/$defs/agentCandidate" }
@@ -149,6 +152,71 @@
     }
   },
   "$defs": {
+    "existingOperatingProcedures": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["detection_status", "adaptation_mode"],
+      "properties": {
+        "detection_status": {
+          "type": "string",
+          "enum": ["FOUND", "PARTIAL", "NOT_FOUND"]
+        },
+        "adaptation_mode": {
+          "type": "string",
+          "enum": ["FOLLOW", "COMPOSE", "BRIDGE", "NONE"]
+        },
+        "procedure_inventory": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "path", "type", "purpose"],
+            "properties": {
+              "id": { "type": "string" },
+              "path": { "type": "string" },
+              "type": {
+                "type": "string",
+                "enum": [
+                  "host-instructions",
+                  "skill",
+                  "command",
+                  "rule",
+                  "domain-memory",
+                  "adr",
+                  "agent-config",
+                  "tracker-binding",
+                  "prompt-pack",
+                  "other"
+                ]
+              },
+              "purpose": { "type": "string" },
+              "invocation": { "type": "string" },
+              "confidence": {
+                "type": "string",
+                "enum": ["HIGH", "MEDIUM", "LOW"]
+              }
+            }
+          }
+        },
+        "canonical_workflow_chain": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "domain_memory_locations": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "work_tracking_binding": { "type": "string" },
+        "conflicts_with_architect_defaults": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "adoption_decisions": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
     "agentCandidate": {
       "type": "object",
       "additionalProperties": false,

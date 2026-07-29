@@ -16,6 +16,10 @@ User asks to discover a project, build an agent fleet, run The Architect / Promp
 6. After approval, automatically use
    [`core/workflows/generate-prompt-pack.md`](core/workflows/generate-prompt-pack.md)
    in `SAVE` mode. Do not ask a second question about whether to create agents.
+7. When a project already defines agent/skills/documentation procedures, detect
+   and adapt per
+   [`core/workflows/existing-operating-procedures.md`](core/workflows/existing-operating-procedures.md)
+   — prefer those procedures over Architect defaults.
 
 ## Slash commands
 

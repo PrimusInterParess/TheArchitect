@@ -35,6 +35,8 @@ $requiredCore = @(
   "project-discovery.reference.md",
   "brownfield-research.md",
   "brownfield-research.reference.md",
+  "existing-operating-procedures.md",
+  "existing-operating-procedures.reference.md",
   "generate-prompt-pack.md",
   "create-agent.md",
   "extend-fleet.md",

@@ -94,6 +94,12 @@ For Greenfield section 10 (Current Repository):
 
 `Not applicable � Greenfield project.`
 
+For section **Existing Agent / Skills / Documentation Procedures**: use
+`NOT_FOUND` / adaptation mode `NONE` unless the user pasted or pointed at an
+external skills pack, host instructions, or documentation workflow — then run
+[existing-operating-procedures.md](existing-operating-procedures.md) and record
+adoption decisions before recommending the fleet.
+
 ## Automatic specification persistence
 
 When workspace file-writing tools are available:

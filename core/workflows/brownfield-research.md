@@ -54,15 +54,18 @@ inappropriate.
 Stop early when enough evidence exists. Details: [brownfield-research.reference.md](brownfield-research.reference.md).
 
 1. Orientation (README, manifests, docs)
-2. Application topology
-3. Contracts and data
-4. Identity and authorization
-5. Payments and billing (if present)
-6. AI (if present)
-7. Infrastructure and CI/CD
-8. Configuration (no secret values)
-9. Quality / tests
-10. Observability and operations
+2. **Existing agent / skills / documentation procedures** (mandatory when any
+   host instructions, `SKILL.md` packs, domain memory, or agent config docs
+   appear — see [existing-operating-procedures.md](existing-operating-procedures.md))
+3. Application topology
+4. Contracts and data
+5. Identity and authorization
+6. Payments and billing (if present)
+7. AI (if present)
+8. Infrastructure and CI/CD
+9. Configuration (no secret values)
+10. Quality / tests
+11. Observability and operations
 
 ## Evidence table
 
@@ -97,6 +100,22 @@ Look for evidence of:
 
 Record a path mapping in the evidence section of the final specification so
 `/operate` can use it later.
+
+## Existing operating procedures (mandatory check)
+
+During Orientation, also run
+[existing-operating-procedures.md](existing-operating-procedures.md):
+
+1. Detect host instructions, skills packs, domain memory, agent config docs,
+   and any prescribed delivery workflow chain.
+2. Choose adaptation mode: `FOLLOW` | `COMPOSE` | `BRIDGE` | `NONE`.
+3. Record the inventory and conflicts in the specification section
+   **Existing Agent / Skills / Documentation Procedures**.
+4. Prefer project procedures over Architect defaults; do not overwrite skill
+   files, `CONTEXT.md`, ADRs, or host instruction files during research.
+
+If procedures are found, recommended agents and the later prompt pack **must**
+adapt to them (see generate-prompt-pack binding rules).
 
 ## Gap analysis
 

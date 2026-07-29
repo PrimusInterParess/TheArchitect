@@ -20,6 +20,28 @@ Generate a project-specific multi-agent prompt pack. Do **not** implement the ap
 
 Specialize agents only for verified or approved providers. Prefer generic capability agents when undecided.
 
+## Existing operating procedures
+
+Before writing agent prompts, read the specification section
+**Existing Agent / Skills / Documentation Procedures** (or treat as
+`NOT_FOUND` / mode `NONE` when absent).
+
+Follow [existing-operating-procedures.md](existing-operating-procedures.md):
+
+1. Persist adopted procedures in `governance/shared-context.yaml` under
+   `existing_operating_procedures`.
+2. Map `protocols/execution-workflow.md` onto the project's workflow chain
+   when one exists (`FOLLOW` / `COMPOSE` / `BRIDGE`).
+3. Require every agent **Operating Principles** section to prefer adopted
+   project procedures over Architect defaults.
+4. Require the Principal Architect to re-resolve procedures at `/operate`
+   start.
+5. Never overwrite project skills, host instruction files, `CONTEXT.md`, ADRs,
+   or `docs/agents/*` during prompt-pack SAVE.
+
+If adaptation mode is `FOLLOW` or `BRIDGE`, do not invent a second competing
+clarify → spec → ticket → implement loop in Architect protocols.
+
 ## Generation modes
 
 - `SAVE` (default): create every prompt and governance artifact as a real,
@@ -126,6 +148,9 @@ In `SAVE` modes:
 - Proposed vs approved contracts are distinct
 - No secrets
 - No fabricated test/deploy claims
+- Adopted existing operating procedures are reflected in shared context,
+  execution workflow, and agent Operating Principles (or explicitly `NONE`)
+- Project skill / host-instruction / domain-memory files were not overwritten
 
 ## Save verification
 

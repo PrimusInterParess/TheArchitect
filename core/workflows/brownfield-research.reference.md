@@ -8,39 +8,57 @@ Root tree, README, contribution guides, solution/workspace files, package manife
 
 Examples: `README.md`, `package.json`, `*.sln`, `*.csproj`, `pyproject.toml`, `go.mod`, `Cargo.toml`, `pom.xml`, `build.gradle`.
 
-### Stage 2 � Application topology
+### Stage 2 � Existing agent / skills / documentation procedures
+
+Run [existing-operating-procedures.md](existing-operating-procedures.md). Signal
+catalog: [existing-operating-procedures.reference.md](existing-operating-procedures.reference.md).
+
+High-signal paths (illustrative, not exhaustive):
+
+- Host instructions: `AGENTS.md`, `CLAUDE.md`, `.github/copilot-instructions.md`,
+  `.cursor/rules/**`, `.cursorrules`
+- Skills: `**/SKILL.md`, `skills/**`, `.cursor/skills/**`, `.claude/skills/**`,
+  `.agents/skills/**`
+- Domain memory: `CONTEXT.md`, `CONTEXT-MAP.md`, `docs/adr/**`, glossaries
+- Agent config: `docs/agents/**`, sections titled like `## Agent skills`
+- Prior Architect pack: `agent-system/**`
+
+Record adaptation mode and procedure inventory before recommending the fleet.
+Prefer project procedures over Architect defaults when both exist.
+
+### Stage 3 � Application topology
 
 Frontends, APIs, libraries, domain modules, workers, schedulers, data-access layers, integrations.
 
-### Stage 3 � Contracts and data
+### Stage 4 � Contracts and data
 
 OpenAPI/GraphQL, DTOs, events, entities, migrations, validation, serialization, error conventions, sources of truth.
 
-### Stage 4 � Identity and authorization
+### Stage 5 � Identity and authorization
 
 SDKs, middleware, callbacks, token/session validation, roles/policies, tenancy, user sync, FE guards vs BE enforcement. No tenant secrets.
 
-### Stage 5 � Payments
+### Stage 6 � Payments
 
 SDK usage, checkout/portal, webhooks, signature verification, raw body, idempotency, entitlement sync, dunning. No Stripe/other secrets.
 
-### Stage 6 � AI
+### Stage 7 � AI
 
 Model clients, prompts/versions, structured outputs, embeddings/RAG, untrusted-content boundaries, validation, retries, cost/latency controls.
 
-### Stage 7 � Infrastructure and delivery
+### Stage 8 � Infrastructure and delivery
 
 Docker, IaC, hosting manifests, CI/CD YAML, approvals, secret refs (names only), workload identity, rollback.
 
-### Stage 8 � Configuration
+### Stage 9 � Configuration
 
 Local/test/staging/prod; build vs deploy vs runtime; public vs secret; feature flags; validation. Templates like `.env.example` only.
 
-### Stage 9 � Quality
+### Stage 10 � Quality
 
 Unit/integration/contract/E2E/security/performance/AI-eval tests; mocks; coverage; pipeline gates. Reading ? passing.
 
-### Stage 10 � Observability
+### Stage 11 � Observability
 
 Logging, correlation, tracing, metrics, health, alerts, dashboards, runbooks, backup/recovery.
 

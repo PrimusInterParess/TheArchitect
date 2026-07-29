@@ -36,6 +36,37 @@
         }
       }
     },
+    "existing_operating_procedures": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "detection_status": {
+          "type": "string",
+          "enum": ["FOUND", "PARTIAL", "NOT_FOUND"]
+        },
+        "adaptation_mode": {
+          "type": "string",
+          "enum": ["FOLLOW", "COMPOSE", "BRIDGE", "NONE"]
+        },
+        "procedure_paths": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "canonical_workflow_chain": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "domain_memory_locations": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "work_tracking_binding": { "type": "string" },
+        "precedence_notes": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
     "capabilities": {
       "type": "object",
       "additionalProperties": {

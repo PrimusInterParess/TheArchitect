@@ -126,13 +126,16 @@ Present ?3 options; recommend; wait for approval.
 32. Open Questions  
 33. Risks and Technical Debt  
 34. Contradictions Detected  
-35. Recommended Agent Fleet (id, why, ownership, non-responsibilities, I/O, collaborators, approval)  
-36. Excluded Agents (with reasons)  
-37. Preliminary Ownership Matrix  
-38. Proposed Execution Order  
-39. Evidence Index (`Not applicable � no existing repository was analyzed.`)  
-40. Repository Access and Validation Limitations  
-41. Readiness Recommendation  
+35. Existing Agent / Skills / Documentation Procedures  
+    (`NOT_FOUND` for pure greenfield with no pasted templates; otherwise follow
+    [existing-operating-procedures.md](existing-operating-procedures.md))  
+36. Recommended Agent Fleet (id, why, ownership, non-responsibilities, I/O, collaborators, approval)  
+37. Excluded Agents (with reasons)  
+38. Preliminary Ownership Matrix  
+39. Proposed Execution Order  
+40. Evidence Index (`Not applicable � no existing repository was analyzed.`)  
+41. Repository Access and Validation Limitations  
+42. Readiness Recommendation  
 
 Readiness values:
 
