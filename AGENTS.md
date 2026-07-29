@@ -20,6 +20,9 @@ User asks to discover a project, build an agent fleet, run The Architect / Promp
    and adapt per
    [`core/workflows/existing-operating-procedures.md`](core/workflows/existing-operating-procedures.md)
    — prefer those procedures over Architect defaults.
+8. Upgrading an app from an older Architect: follow
+   [`README.md`](README.md) → **Upgrading a project that still has an older Architect**
+   (library update, then `/upgrade-architect`).
 
 ## Slash commands
 

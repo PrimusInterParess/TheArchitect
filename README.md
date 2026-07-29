@@ -242,6 +242,115 @@ Bump [`VERSION`](VERSION) when you release. Consumers:
 
 Details: [`INSTALL.md`](INSTALL.md) → **Updating to a new library version**.
 
+### Upgrading a project that still has an older Architect
+
+Use this when an application repo already has The Architect installed (old
+`core/`, old `.cursor/` adapters, and usually an `agent-system/` fleet) and you
+want the new library behavior (including procedure scanning and refreshed agent
+docs).
+
+**Who this is for:** humans, or an agent asked for “upgrade Architect” /
+“migrate to the new The Architect version” guidelines.
+
+#### Step 0 — Identify how Architect was installed
+
+| Clue in the app repo | Install style |
+|---|---|
+| `vendor/thearchitect/` (git submodule) | Submodule |
+| `core/workflows/`, `AGENTS.md`, `.cursor/commands/` at app root | Copy-install |
+| Only a separate `thearchitect` clone; app points at it | Standalone toolkit |
+
+Optional: compare `.architect/library-version` (if present) with this repo’s
+[`VERSION`](VERSION).
+
+#### Step 1 — Update library files (do this first)
+
+**Submodule**
+
+```bash
+cd /path/to/your/app
+git submodule update --remote vendor/thearchitect
+# or pin: cd vendor/thearchitect && git fetch && git checkout vX.Y.Z
+```
+
+Point IDE instructions at `vendor/thearchitect/AGENTS.md` if not already.
+
+**Copy-install** — from a checkout of the **new** Architect repo:
+
+```powershell
+powershell -File scripts/update-into-project.ps1 -TargetPath "C:\path\to\your\app"
+```
+
+```bash
+bash scripts/update-into-project.sh /path/to/your/app
+```
+
+Preview: add `-DryRun` (PowerShell) or `DRY_RUN=1` (bash).
+
+This refreshes `core/`, `schemas/`, adapters, `AGENTS.md`, etc. It does **not**
+rewrite `agent-system/`.
+
+**Standalone Architect clone** (toolkit only):
+
+```bash
+cd thearchitect
+git pull
+# or: git fetch && git checkout vX.Y.Z
+```
+
+Then still run Step 3 inside each **application** that has a generated fleet.
+
+#### Step 2 — Reload the IDE
+
+If Cursor adapters changed, reload the window so `/upgrade-architect` is
+available.
+
+#### Step 3 — Regenerate agent docs (required)
+
+In the **application** project (where `agent-system/` lives), run:
+
+```text
+/upgrade-architect
+```
+
+Or say: `Upgrade The Architect and refresh the generated agent fleet`.
+
+That workflow:
+
+1. Checks library version stamps when present
+2. Re-scans project skills/docs procedures (brownfield/hybrid)
+3. Regenerates `agent-system/` agents + governance from the approved spec
+4. Preserves `agent-system/project-specification.md` (and plan/mapping if present)
+5. Does not implement application features
+
+#### Step 4 — If `/upgrade-architect` is blocked
+
+| Problem | What to do |
+|---|---|
+| No `agent-system/project-specification.md` | Run discovery (`/discover` / `/brownfield` / `/hybrid`) and get approval first |
+| Spec not `APPROVED` | Finish approval, then retry `/upgrade-architect` |
+| Library files still old | Finish Step 1, reload IDE, retry |
+| Unrelated prompt-pack conflict | Stop; resolve project identity before overwriting |
+
+#### Step 5 — Continue work
+
+```text
+/operate
+```
+
+Optional review: `/audit`.
+
+#### What gets updated vs preserved
+
+| Updated | Preserved |
+|---|---|
+| Library: `core/`, `schemas/`, `AGENTS.md`, Cursor/Claude/Copilot adapters | `agent-system/project-specification.md` |
+| Generated: `agent-system/agents/*`, governance, protocols (via `/upgrade-architect`) | `implementation-plan.md` / `repository-task-mapping.md` if present |
+| `.architect/library-version` stamp | Application source code outside library paths |
+
+**Do not** use `install-into-project -Force` for routine upgrades — that is a
+blunt reinstall. Prefer `update-into-project` + `/upgrade-architect`.
+
 ### Publish for others
 
 1. Push this repo to GitHub/GitLab (tag releases that match `VERSION`).
