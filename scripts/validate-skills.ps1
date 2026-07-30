@@ -146,7 +146,14 @@ $expected = @(
   "project-context.schema.json",
   "capability-matrix.schema.json",
   "discovery-ledger.schema.json",
-  "requirements-spec.schema.json"
+  "requirements-spec.schema.json",
+  "architect-install.schema.json",
+  "manifest.schema.json",
+  "agent-registry.schema.json",
+  "task-delegation.schema.json",
+  "agent-handoff.schema.json",
+  "validation-report.schema.json",
+  "context-index.schema.json"
 )
 if (-not (Test-Path -LiteralPath $SchemasDir)) {
   Add-Err "schemas/ directory missing"

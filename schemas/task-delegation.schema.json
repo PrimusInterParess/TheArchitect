@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://thearchitect.local/schemas/task-delegation.schema.json",
+  "title": "Task delegation envelope",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["task_id", "agent_id", "objective"],
+  "properties": {
+    "task_id": { "type": "string" },
+    "agent_id": { "type": "string" },
+    "objective": { "type": "string" },
+    "scope": { "type": ["string", "object", "array"] },
+    "contracts": { "type": ["array", "object"] },
+    "definition_of_done": { "type": ["string", "array"] },
+    "authorization_bounds": { "type": ["string", "object"] },
+    "inputs": { "type": ["array", "object"] },
+    "exclusions": { "type": ["array", "string"] }
+  }
+}

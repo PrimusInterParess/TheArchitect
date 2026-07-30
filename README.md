@@ -487,6 +487,12 @@ python scripts/validate-skills.py
 
 Abbreviated discovery sample: [`examples/sample-requirements-spec.md`](examples/sample-requirements-spec.md)
 
+Sample generated fleet (passes `scripts/validate-agent-system.ps1`):
+[`examples/sample-agent-system/`](examples/sample-agent-system/)
+
+See also [`CHANGELOG.md`](CHANGELOG.md) for library upgrades — after updating
+files, run **`/upgrade-architect`** in each app with a fleet.
+
 Deep reference prompts: [`references/source-prompts/`](references/source-prompts/)
 
 ---

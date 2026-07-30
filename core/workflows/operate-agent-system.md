@@ -1,12 +1,13 @@
 # Operate Agent System
 
-> **CRITICAL — Cursor users:** When presenting choices (A/B/C/D/E), you MUST
-> use the `AskQuestion` tool so options are clickable. Do NOT print a plain
-> text menu. This applies to the entry menu and every subsequent choice point.
-
 Operate a generated prompt pack through Architect → agents → validation → integration.
 
 Deep playbook: [../../references/source-prompts/04-operate-agent-system.md](../../references/source-prompts/04-operate-agent-system.md)
+**If the deep playbook conflicts with this file, this file wins.**
+
+Cursor host details (AskQuestion, Task tool names, `subagent_type` values): see
+[`.cursor/skills/operate-agent-system/SKILL.md`](../../.cursor/skills/operate-agent-system/SKILL.md)
+and [`.cursor/rules/operate-native-subagents.mdc`](../../.cursor/rules/operate-native-subagents.mdc).
 
 ## Entry menu
 
@@ -15,9 +16,8 @@ wants implementation.
 
 ### Choice UI
 
-- If the host IDE provides a native structured-question or multiple-choice
-  tool, use it so the options are clickable. Do not print the text menu first.
-- In Cursor, use the native `AskQuestion` tool.
+- Prefer the host IDE’s native structured-question or multiple-choice UI so
+  options are clickable. Do not print the text menu first when that UI works.
 - Put the recommended option first and label it `(Recommended)` only when the
   saved project state supports the recommendation.
 - If no native choice tool is available, use the text fallback below.
@@ -93,6 +93,19 @@ Priority:
 Then proceed using an in-memory “context index”:
 `spec_path`, `shared_context_path`, `agents_dir`, and any required
 governance/protocol paths.
+
+## Library vs pack version check
+
+Before options A–E do substantive work:
+
+1. Resolve library `VERSION` (policy `library_root`, resolved `core/` sibling,
+   or app-root `VERSION` — same order as `/upgrade-architect`).
+2. Read `library_version` from `agent-system/manifest.yaml` when present.
+3. If the library version is **newer** than the pack’s `library_version`, or
+   the pack omits `library_version` while a library `VERSION` exists, warn once
+   and recommend **`/upgrade-architect`** before large implementation (C/D).
+4. Do not block read-only options A/B/E solely for a version mismatch; still
+   surface the warning.
 
 ## Existing operating procedures (before plan or implement)
 
@@ -170,7 +183,9 @@ If no approved milestone exists, do not implement; direct the user to **A**.
 
 ## Authorization behavior
 
-- A and B are read-only.
+- A and B must **not** modify application source. They **may** write proposed
+  planning artifacts under `agent-system/` (`implementation-plan.md`,
+  `repository-task-mapping.md`) marked `PROPOSED — APPROVAL REQUIRED`.
 - C and D may modify application files only when the user's request clearly
   authorizes implementation.
 - E is read-only unless the user subsequently authorizes a resumed change.
@@ -191,10 +206,14 @@ run whenever the host supports it.
 | `protocols/task-delegation.yaml` instance | This-request **task**: objective, scope, contracts, DoD |
 | `protocols/agent-handoff.yaml` instance | Result returned to the Architect |
 
-Do not invent new Cursor Task *kinds*. Reuse host Task types and **inject** the
-fleet agent prompt + delegation envelope into each run.
+Registry **agent id** (e.g. `principal-software-architect`) may differ from
+**prompt filename** (e.g. `agents/00-principal-architect.md`). Use both from
+the registry. See [../glossary.md](../glossary.md).
 
-### Cursor (required when Task is available)
+Do not invent new host Task *kinds*. Reuse the host’s generic subagent/Task
+types and **inject** the fleet agent prompt + delegation envelope into each run.
+
+### Hosts with native isolated subagents (required when available)
 
 For options **C** and **D** (and any authorized specialist work under `/operate`):
 
@@ -202,12 +221,12 @@ For options **C** and **D** (and any authorized specialist work under `/operate`
    write/save delegation envelopes, integrate handoffs, run approval gates.
 2. Parent must **not** implement work owned by another registered agent
    (backend, frontend, UX, PM, QA, etc.) inside the parent turn.
-3. For each selected primary agent, call Cursor **`Task`**:
-   - `subagent_type`: `generalPurpose` for implementation/design; `explore`
-     only for read-only research.
-   - `description`: short title including the fleet agent id
+3. For each selected primary agent, launch an isolated subagent/Task run:
+   - Prefer a general-purpose implementation/design runner; use an explore /
+     read-only runner only for research.
+   - Title/description should include the fleet agent id
      (e.g. `backend-engineer: M2 domain model`).
-   - `prompt` must include, in order:
+   - Prompt must include, in order:
      1. Exact text (or path + instruction to read) of that agent’s
         `agents/<file>.md`
      2. The filled `task-delegation.yaml` for this task (unchanged bounds)
@@ -216,13 +235,16 @@ For options **C** and **D** (and any authorized specialist work under `/operate`
      5. Required return: complete agent-handoff package + status
 4. Launch independent agents in parallel when the plan marks them unblocked
    and non-conflicting; otherwise run sequentially.
-5. After each Task returns, the Architect validates the handoff, then
-   continues (next agent, QA reviewer Task, or integration review).
-6. If `Task` is unavailable in the session, say so once, then fall back to
+5. After each run returns, the Architect validates the handoff, then
+   continues (next agent, QA reviewer run, or integration review).
+6. If isolated subagents are unavailable, say so once, then fall back to
    **Separate chats** (preferred) or **Single chat** (last resort), and record
    the fallback in the final status notes.
 
-### Non-Cursor hosts
+Host-specific tool names and parameters belong in IDE adapters (e.g. Cursor
+`.cursor/`), not as hard requirements of this portable workflow.
+
+### Fallback hosts
 
 1. **Native multi-agent** — use the host’s equivalent of Task/subagents with
    the same inject pattern (agent prompt + delegation YAML).
@@ -236,10 +258,10 @@ For options **C** and **D** (and any authorized specialist work under `/operate`
 2. Submit a project request with explicit authorization bounds.
 3. Review delegation plan before implementation.
 4. Invoke only selected agents via the delegation runtime with unchanged
-   delegation YAML (Cursor: `Task` + agent prompt inject).
+   delegation YAML (host: isolated subagent + agent prompt inject).
 5. Return complete handoffs to the Architect.
-6. Run independent validation when required (Cursor: separate QA `Task`
-   when a reviewer is required).
+6. Run independent validation when required (separate QA subagent when a
+   reviewer is required).
 7. Final integration review with status:
    - `REQUEST COMPLETE`
    - `REQUEST COMPLETE WITH DOCUMENTED LIMITATIONS`
@@ -252,5 +274,5 @@ For options **C** and **D** (and any authorized specialist work under `/operate`
 - Never paste real secrets.
 - Never claim tests/builds/deploys that were not executed.
 - Record approvals explicitly.
-- In Cursor, do not role-play fleet specialists in the parent chat when `Task`
-  is available.
+- Do not role-play fleet specialists in the parent chat when isolated
+  subagents/Tasks are available.

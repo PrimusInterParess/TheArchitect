@@ -12,14 +12,17 @@
 
 ```powershell
 powershell -File scripts/validate-skills.ps1
+powershell -File scripts/validate-agent-system.ps1 -AgentSystemPath examples/sample-agent-system
 ```
 
-2. Ensure new workflows are linked from:
+2. Bump `VERSION` and update `CHANGELOG.md` for user-visible library changes.
+3. Ensure new workflows are linked from:
    - `core/workflows/agent-system-builder.md`
    - `AGENTS.md`
    - `core/slash-commands.md` (if user-invocable)
-3. Keep each Cursor `SKILL.md` under ~500 lines and pointing at `core/`.
-4. Prefer progressive disclosure (`*.reference.md`) over giant single files.
+4. Keep each Cursor `SKILL.md` under ~500 lines and pointing at `core/`.
+5. Prefer progressive disclosure (`*.reference.md`) over giant single files.
+6. If `references/source-prompts/` diverges from `core/`, **core wins** — sync or gate the deep playbook.
 
 ## Adding a workflow
 
@@ -27,7 +30,7 @@ powershell -File scripts/validate-skills.ps1
 2. Add a thin Cursor skill under `.cursor/skills/<name>/SKILL.md` if auto-discovery helps.
 3. Add a Cursor command under `.cursor/commands/<name>.md` if slash invocation is desired.
 4. Update the router and slash-command map.
-5. Update validators� required file list if the workflow is mandatory.
+5. Update validators' required file list if the workflow is mandatory.
 
 ## Adding an IDE adapter
 

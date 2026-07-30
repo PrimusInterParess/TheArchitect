@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://thearchitect.local/schemas/agent-handoff.schema.json",
+  "title": "Agent handoff envelope",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["task_id", "agent_id", "status"],
+  "properties": {
+    "task_id": { "type": "string" },
+    "agent_id": { "type": "string" },
+    "status": {
+      "type": "string",
+      "enum": [
+        "COMPLETE",
+        "COMPLETE_WITH_LIMITATIONS",
+        "BLOCKED",
+        "NEEDS_REVIEW"
+      ]
+    },
+    "summary": { "type": "string" },
+    "artifacts": { "type": ["array", "object"] },
+    "evidence": { "type": ["array", "object", "string"] },
+    "blockers": { "type": ["array", "string"] },
+    "follow_ups": { "type": ["array", "string"] }
+  }
+}

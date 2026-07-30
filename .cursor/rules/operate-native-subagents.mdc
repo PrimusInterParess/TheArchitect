@@ -18,4 +18,7 @@ When running `/operate`, `operate-agent-system`, or implementing work from an
 5. After Task returns, integrate the handoff in the parent and continue the
    operate loop (next agent, QA Task, or integration review).
 
+When running `/operate`, also use **`AskQuestion`** for A–E menus when available.
+
 Full procedure: `core/workflows/operate-agent-system.md` (§ Delegation runtime).
+Cursor tool names: `.cursor/skills/operate-agent-system/SKILL.md`.

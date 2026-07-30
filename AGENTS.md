@@ -1,10 +1,10 @@
-# The Architect � Agent Instructions (IDE-agnostic)
+# The Architect — Agent Instructions (IDE-agnostic)
 
 Portable source of truth: `core/`.
 
 ## When to activate
 
-User asks to discover a project, build an agent fleet, run The Architect / Prompt Factory, analyze a brownfield repo, generate a multi-agent prompt pack, create/extend/audit agents, or operate an agent system � including slash commands listed in [`core/slash-commands.md`](core/slash-commands.md).
+User asks to discover a project, build an agent fleet, run The Architect / Prompt Factory, analyze a brownfield repo, generate a multi-agent prompt pack, create/extend/audit agents, or operate an agent system — including slash commands listed in [`core/slash-commands.md`](core/slash-commands.md).
 
 ## Default procedure
 
@@ -37,6 +37,7 @@ User asks to discover a project, build an agent fleet, run The Architect / Promp
 | `/extend-fleet` | `core/workflows/extend-fleet.md` |
 | `/audit` | `core/workflows/audit-prompts.md` |
 | `/operate` | `core/workflows/operate-agent-system.md` |
+| `/update-context` | `core/workflows/update-context-mapping.md` |
 | `/upgrade-architect` | `core/workflows/upgrade-architect.md` |
 
 ## IDE adapters
@@ -47,3 +48,4 @@ User asks to discover a project, build an agent fleet, run The Architect / Promp
 - GitHub Copilot: `.github/copilot-instructions.md` (from [`adapters/copilot/copilot-instructions.md`](adapters/copilot/copilot-instructions.md))
 
 Deep archived prompts remain under `references/source-prompts/` for progressive disclosure.
+**If a deep playbook conflicts with `core/`, `core/` wins.**

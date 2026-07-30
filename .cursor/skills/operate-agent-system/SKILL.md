@@ -11,6 +11,12 @@ disable-model-invocation: true
 
 **Read and follow:** [core/workflows/operate-agent-system.md](../../../core/workflows/operate-agent-system.md)
 
+## Cursor-specific: choice UI
+
+When presenting A–E (or other operate choices), use the native **`AskQuestion`**
+tool so options are clickable. Do not print the text menu first when
+`AskQuestion` is available.
+
 ## Cursor-specific: native Task delegation
 
 When executing options **C** or **D** (or any specialist implementation under

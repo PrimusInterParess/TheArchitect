@@ -114,11 +114,13 @@ were previously recorded:
 2. Update the specification section
    **Existing Agent / Skills / Documentation Procedures** when the inventory
    or adaptation mode changed.
-3. Keep status `APPROVED WITH CHANGES` only if material adoption decisions
-   changed; otherwise leave approval status as-is and note procedure refresh
-   in the upgrade summary.
+3. Keep status `APPROVED WITH CHANGES` when the procedure inventory or
+   adaptation mode changes in a material way; otherwise leave approval status
+   as-is and note procedure refresh in the upgrade summary.
 4. If adoption decisions would change in a breaking way, stop and ask for
    approval before regenerating agents.
+5. Always note library version before → after and list agent/governance files
+   replaced.
 
 For `GREENFIELD` with `NOT_FOUND` / `NONE`, skip unless the user points at a
 new skills pack.

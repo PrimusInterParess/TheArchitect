@@ -26,11 +26,15 @@ REQUIRED_CORE = [
     "project-discovery.reference.md",
     "brownfield-research.md",
     "brownfield-research.reference.md",
+    "existing-operating-procedures.md",
+    "existing-operating-procedures.reference.md",
     "generate-prompt-pack.md",
     "create-agent.md",
     "extend-fleet.md",
     "audit-prompts.md",
     "operate-agent-system.md",
+    "upgrade-architect.md",
+    "update-context-mapping.md",
 ]
 
 REQUIRED_COMMANDS = [
@@ -43,6 +47,8 @@ REQUIRED_COMMANDS = [
     "extend-fleet.md",
     "audit.md",
     "operate.md",
+    "upgrade-architect.md",
+    "update-context.md",
 ]
 
 REQUIRED_RULES = [
@@ -133,6 +139,13 @@ def main() -> int:
         "capability-matrix.schema.json",
         "discovery-ledger.schema.json",
         "requirements-spec.schema.json",
+        "architect-install.schema.json",
+        "manifest.schema.json",
+        "agent-registry.schema.json",
+        "task-delegation.schema.json",
+        "agent-handoff.schema.json",
+        "validation-report.schema.json",
+        "context-index.schema.json",
     }
     if not SCHEMAS_DIR.is_dir():
         fail("schemas/ directory missing", errors)

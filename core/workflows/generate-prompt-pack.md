@@ -13,6 +13,12 @@ If the file is unavailable, use an approved specification supplied in the
 conversation. If neither exists, stop instead of reconstructing it from memory.
 
 Full deep checklist: [../../references/source-prompts/03-generate-complete-prompt-pack.md](../../references/source-prompts/03-generate-complete-prompt-pack.md)
+**If the deep playbook conflicts with this file, this file wins** (especially
+`SAVE` / `PREVIEW` / no chat-dump-as-pack rules).
+
+Agent **id** vs **prompt filename** convention: see [../glossary.md](../glossary.md).
+When writing `manifest.yaml`, set `library_version` from the library `VERSION`
+file so `/operate` can detect drift.
 
 ## Mission
 

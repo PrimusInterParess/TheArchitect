@@ -35,6 +35,11 @@ approves a change:
 
 Label each adopted procedure `VERIFIED_EXISTING`. Label Architect additions that
 fill a gap `ARCHITECT_PROPOSED`. Never invent a procedure the repo does not have.
+Vocabulary: [../glossary.md](../glossary.md). Persist
+`existing_operating_procedures` per
+[`schemas/project-context.schema.json`](../../schemas/project-context.schema.json)
+(`$defs` / property on project context) and the pack
+`governance/shared-context.yaml`.
 
 ## When to run
 
