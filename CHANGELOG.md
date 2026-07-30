@@ -17,6 +17,9 @@ Library prompt quality release. **Consumers must update library files, then run 
 - `core/glossary.md` — shared decision-state / ledger vocabulary.
 - Library vs pack version mismatch warning on `/operate`.
 - CHANGELOG and upgrade reminder for old installs.
+- Generate-prompt-pack **§6 / §11** guidance: bind style, patterns, skills, and
+  knowledge to project paths; allow labeled `ARCHITECT_PROPOSED` improvement
+  suggestions (no silent house-style override).
 
 ### Fixed
 

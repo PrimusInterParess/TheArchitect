@@ -147,6 +147,56 @@ In `SAVE` modes:
 17. Escalation Conditions  
 18. Prohibited Behaviors  
 
+### Filling §6 / §11 (style, patterns, skills, knowledge)
+
+Style, design patterns, implementation conventions, skills, and domain
+knowledge are **project-owned first**. Agent prompts must **bind to verified
+paths**, not paste encyclopedias into every file and not silently replace
+project standards with an Architect house style.
+
+Agents **may and should suggest improvements** (better style rules, clearer
+patterns, missing skills, stronger knowledge docs) when evidence or gaps
+justify it. Suggestions are always labeled `ARCHITECT_PROPOSED` (or recorded
+in the decision/risk register) and need user approval before they become
+required practice or before overwriting project files.
+
+Ensure `governance/shared-context.yaml` carries the EOP skill / knowledge /
+procedure path inventory under `existing_operating_procedures` (or explicitly
+`NONE`). Every agent’s §6 and §11 must reference those paths when present.
+
+**§11 Technical Standards** must include:
+
+- When evidence exists: code style / lint / format sources (paths only —
+  e.g. editorconfig, linter config, `CONTRIBUTING` style sections)
+- When evidence exists: established design or architecture patterns **in this
+  repo** (cite evidence)
+- When gaps or risks exist: concise **improvement proposals** labeled
+  `ARCHITECT_PROPOSED` (what, why better, impact, approval needed) — never
+  silent invention treated as fact
+- Implementation constraints from approved contracts / ADRs (paths + one-line
+  purpose)
+- If nothing is known: `UNDECIDED` / `NONE`, plus optional proposals
+
+**§6 Operating Principles** must require agents to:
+
+- When EOP mode is `FOLLOW`, `COMPOSE`, or `BRIDGE`: read the listed project
+  skills, `CONTEXT.md`, ADRs, and host rules **before** implementing
+- Prefer those project procedures over Architect defaults **until** a proposed
+  change is approved
+- Surface better alternatives in handoffs / decision register instead of
+  quietly drifting
+
+**Hard rules:**
+
+- Follow verified project standards by default; propose better approaches
+  explicitly — do not pretend a suggestion is already adopted
+- Do not invent a mandatory house style when the project has none — state the
+  gap, propose options if useful, await approval
+- Do not paste full skill or CONTEXT bodies into agent prompts — paths +
+  one-line purpose only
+- Never overwrite project skills, `CONTEXT.md`, ADRs, or host instruction files
+  during `SAVE` without explicit user authorization
+
 ## Consistency checks before finishing
 
 - No duplicate ownership
@@ -158,6 +208,12 @@ In `SAVE` modes:
 - Adopted existing operating procedures are reflected in shared context,
   execution workflow, and agent Operating Principles (or explicitly `NONE`)
 - Project skill / host-instruction / domain-memory files were not overwritten
+- §6 / §11 bind to shared-context EOP / style / pattern / knowledge paths
+  (paths only; no pasted skill bodies; no silent house-style override)
+- Improvement ideas are labeled `ARCHITECT_PROPOSED` (or equivalent), not
+  written as verified project fact
+- Greenfield / empty style inventory is labeled `NONE` / `UNDECIDED` /
+  `ARCHITECT_PROPOSED` rather than silent defaults
 
 ## Save verification
 

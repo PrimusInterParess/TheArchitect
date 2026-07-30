@@ -65,3 +65,12 @@ Always record both in `governance/agent-registry.yaml` (`id` + `prompt_file`).
 - `APPROVED WITH CHANGES`
 - `PROPOSED — APPROVAL REQUIRED`
 - `NOT_READY — BLOCKING_INFORMATION_REQUIRED`
+
+## Style, skills, and knowledge
+
+Code style, design patterns, skills, and domain knowledge are **project paths
+first**, not silent Architect library defaults. Agent §6 / §11 must cite
+verified paths, and **may propose better alternatives** as
+`ARCHITECT_PROPOSED` (approval required before adoption). Never paste full
+skill or `CONTEXT.md` bodies into every agent prompt. See
+[workflows/generate-prompt-pack.md](workflows/generate-prompt-pack.md).

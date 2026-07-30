@@ -27,7 +27,9 @@ Create one specialized agent prompt for an existing or in-progress fleet and
    [existing-operating-procedures.md](existing-operating-procedures.md); do not
    introduce a conflicting workflow loop.
 5. Generate a complete agent prompt with all 18 required sections (see
-   [generate-prompt-pack.md](generate-prompt-pack.md)).
+   [generate-prompt-pack.md](generate-prompt-pack.md)), including the
+   **§6 / §11** style–patterns–skills–knowledge binding rules (paths only;
+   no invented house style).
 6. Produce registry / ownership / contract / handoff updates (Architect update
    block).
 7. In `SAVE` mode:

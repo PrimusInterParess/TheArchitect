@@ -1,5 +1,7 @@
 # The Architect — IDE-agnostic Agent System Library
 
+**Version:** [`0.4.0`](VERSION) · **Changelog:** [`CHANGELOG.md`](CHANGELOG.md)
+
 **Orchestration automation for multi-agent software work:** discover a project,
 generate a governed agent fleet, then run that fleet through Architect
 delegation (in Cursor: native Task subagents with each agent’s purpose + task
@@ -11,6 +13,26 @@ injected).
 **License:** [MIT](LICENSE)
 
 IDE folders (`.cursor/`, `CLAUDE.md`, Copilot instructions) are **optional adapters**. Other tools should ignore them and use `AGENTS.md` + `core/`.
+If a deep playbook under [`references/source-prompts/`](references/source-prompts/)
+conflicts with `core/`, **`core/` wins**.
+
+---
+
+## What’s new in 0.4.0
+
+Full notes: [`CHANGELOG.md`](CHANGELOG.md). Highlights:
+
+| Area | Change |
+|---|---|
+| Generate / SAVE | Prompt packs write real files under `agent-system/`; no chat-dump-as-pack |
+| Operate | Library vs pack `library_version` warning; A/B may write proposed plans/mappings under `agent-system/` only |
+| Delegation | Host-neutral inject rules in `core/`; Cursor `AskQuestion` / `Task` details in `.cursor/` |
+| Style & knowledge | Agents bind to project style/skills/CONTEXT paths; may propose better approaches as `ARCHITECT_PROPOSED` |
+| Schemas | Pack/operate schemas: manifest, registry, delegation, handoff, validation, context-index |
+| Examples | Inspectable fleet: [`examples/sample-agent-system/`](examples/sample-agent-system/) |
+| Upgrade | After pulling the library, run **`/upgrade-architect`** in each app with a fleet |
+
+**Existing apps:** update library files → `/upgrade-architect` (library pull alone does not rewrite agent prompts).
 
 ---
 
@@ -24,7 +46,10 @@ IDE folders (`.cursor/`, `CLAUDE.md`, Copilot instructions) are **optional adapt
 | Approval-gated discovery → fleet → `/operate` | A guarantee that hosts without Task get the same isolation |
 
 Prompt-pack generation is the factory step. **Operate** is the point: Architect
-plans; specialists execute bounded work; results return as handoffs.
+plans; specialists execute bounded work; results return as handoffs. Blockers
+and questions come back via handoff (`BLOCKED` / proposals); the Architect
+resolves (ask user / approve) and re-delegates — specialists do not silently
+invent decisions.
 
 ---
 
@@ -75,13 +100,13 @@ After approval, the system automatically creates:
 
 ```text
 agent-system/
-??? project-specification.md
-??? README.md
-??? manifest.yaml
-??? agents/
-??? governance/
-??? protocols/
-??? examples/
+  project-specification.md
+  README.md
+  manifest.yaml          # includes library_version for drift checks
+  agents/
+  governance/
+  protocols/
+  examples/
 ```
 
 The generator writes real files, verifies them, and returns only a short
@@ -110,8 +135,8 @@ If `/operate` is used without a request, it displays:
 
 | Option | Result | Writes application files? |
 |---|---|---:|
-| A | Implementation plan only | No |
-| B | Repository task mapping | No |
+| A | Implementation plan only (`agent-system/implementation-plan.md`) | No (may write proposed plan under `agent-system/`) |
+| B | Repository task mapping (`agent-system/repository-task-mapping.md`) | No (may write proposed mapping under `agent-system/`) |
 | C | Implement the next approved milestone | Yes, when authorized |
 | D | Execute a specific request | Yes, when authorized |
 | E | Resume or review existing work | No by default |
@@ -157,12 +182,18 @@ What happens next:
 |---|---|---|
 | Purpose | `agent-system/agents/<agent>.md` + registry | Standing mission and ownership |
 | This task | Filled `task-delegation.yaml` | Objective, scope, contracts, DoD |
-| Runtime (Cursor) | Cursor `Task` | Isolated run with both artifacts injected |
-| Result | Agent handoff package | Status + evidence back to Architect |
+| Runtime | Host isolated subagent / Cursor `Task` | Isolated run with both artifacts injected |
+| Result | Agent handoff package | Status, evidence, blockers, proposals back to Architect |
+
+When a specialist needs a decision, it returns a handoff (`BLOCKED` /
+`ARCHITECT_PROPOSED`, etc.). The Architect asks you or applies an approval gate,
+then re-delegates with clearer bounds.
 
 The library does **not** register new Cursor Task kinds. It automates *what each
-agent is told* and requires the host to run each selected agent as Task when
-available. Details: [`core/workflows/operate-agent-system.md`](core/workflows/operate-agent-system.md)
+agent is told* and requires the host to run each selected agent as an isolated
+subagent when available. Portable rules:
+[`core/workflows/operate-agent-system.md`](core/workflows/operate-agent-system.md).
+Cursor tool names: [`.cursor/skills/operate-agent-system/SKILL.md`](.cursor/skills/operate-agent-system/SKILL.md)
 and [`adapters/cursor/README.md`](adapters/cursor/README.md).
 
 #### What repository task mapping means
@@ -202,8 +233,8 @@ and gives one short reason. If context is insufficient, it does not display a
 recommendation.
 
 When the IDE supports native structured questions, options are clickable.
-Cursor uses its `AskQuestion` UI. Plain A/B/C text is used only as a fallback in
-tools that do not provide a choice interface.
+In Cursor, adapters use `AskQuestion`. Plain A/B/C text is used only as a
+fallback when no choice UI is available.
 
 ### Test cleanup
 
@@ -378,27 +409,31 @@ blunt reinstall. Prefer `update-into-project` + `/upgrade-architect`.
 
 ```text
 thearchitect/
-??? AGENTS.md
-??? VERSION
-??? LICENSE
-??? INSTALL.md
-??? CONTRIBUTING.md
-??? core/
-?   ??? slash-commands.md
-?   ??? workflows/          # Portable logic
-??? schemas/
-??? examples/
-??? adapters/
-?   ??? generic/
-?   ??? cursor/
-?   ??? claude-code/
-?   ??? copilot/
-??? .cursor/
-?   ??? skills/             # Cursor auto-discovery (thin)
-?   ??? commands/           # Cursor /slash commands
-?   ??? rules/              # Cursor /operate Task delegation rule
-??? references/source-prompts/
-??? scripts/
+  AGENTS.md
+  VERSION
+  CHANGELOG.md
+  LICENSE
+  INSTALL.md
+  CONTRIBUTING.md
+  core/
+    slash-commands.md
+    glossary.md
+    workflows/              # Portable logic (source of truth)
+  schemas/                  # Discovery + pack/operate contracts
+  examples/
+    sample-requirements-spec.md
+    sample-agent-system/    # Validated example fleet
+  adapters/
+    generic/
+    cursor/
+    claude-code/
+    copilot/
+  .cursor/
+    skills/                 # Cursor auto-discovery (thin)
+    commands/               # Cursor /slash commands
+    rules/                  # Cursor /operate Task delegation rule
+  references/source-prompts/  # Progressive disclosure; core/ wins on conflict
+  scripts/
 ```
 
 ---
@@ -469,12 +504,13 @@ generates the agent files automatically.
 
 ```powershell
 powershell -File scripts/validate-skills.ps1
+powershell -File scripts/validate-agent-system.ps1 -AgentSystemPath examples/sample-agent-system
 ```
 
-Validate a generated prompt pack:
+Validate a generated prompt pack in an app:
 
 ```powershell
-powershell -File scripts/validate-agent-system.ps1
+powershell -File scripts/validate-agent-system.ps1 -AgentSystemPath agent-system
 ```
 
 ```bash
@@ -490,10 +526,13 @@ Abbreviated discovery sample: [`examples/sample-requirements-spec.md`](examples/
 Sample generated fleet (passes `scripts/validate-agent-system.ps1`):
 [`examples/sample-agent-system/`](examples/sample-agent-system/)
 
-See also [`CHANGELOG.md`](CHANGELOG.md) for library upgrades — after updating
-files, run **`/upgrade-architect`** in each app with a fleet.
+Shared vocabulary (decision states, EOP modes, style/knowledge): [`core/glossary.md`](core/glossary.md)
+
+Release history and upgrade reminders: [`CHANGELOG.md`](CHANGELOG.md) —
+after updating library files, run **`/upgrade-architect`** in each app with a fleet.
 
 Deep reference prompts: [`references/source-prompts/`](references/source-prompts/)
+(progressive disclosure; defer to `core/` on conflict).
 
 ---
 
@@ -502,10 +541,12 @@ Deep reference prompts: [`references/source-prompts/`](references/source-prompts
 - Orchestration over unsupervised autonomy
 - Capability before provider
 - Evidence over assumption
+- Prefer project skills / style / knowledge paths; propose better as `ARCHITECT_PROPOSED`
 - Minimal necessary complexity
 - No fabricated access, tests, or deployments
 - No secrets in prompts
 - Adapters never become the source of truth
+- `core/` wins over deep `references/` playbooks
 
 ## Contributing
 

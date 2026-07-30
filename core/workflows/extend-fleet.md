@@ -26,7 +26,9 @@ Add one or more agents to an existing prompt pack without breaking ownership.
    agents must follow them.
 5. Decide: new agent, specialization of existing agent, or reject as unnecessary.
 6. Generate/update:
-   - new or revised agent prompt(s) (all 18 sections)
+   - new or revised agent prompt(s) (all 18 sections), inheriting
+     [generate-prompt-pack.md](generate-prompt-pack.md) **§6 / §11**
+     style–patterns–skills–knowledge binding rules
    - Architect prompt updates
    - registry, ownership matrix, contract registry
    - workflow / handoff updates
