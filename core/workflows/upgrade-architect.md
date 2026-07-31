@@ -146,7 +146,23 @@ these upgrade rules:
 7. In the upgrade summary, state reviewer outcome:
    `created` | `refreshed` | `skipped (excluded)` | `skipped (equivalent exists)`.
 
-### 5. Report
+### 5. Ownership sync (required chain)
+
+After a successful pack regenerate (step 4), run
+[update-ownership.md](update-ownership.md) in `REPO` mode (or `DIFF` if the
+user already provided a base ref for that purpose):
+
+1. Use the **same** workflow as `/update-ownership` — do not fork behavior.
+2. Propose ownership gaps vs the live repo; **confirm with the user** before
+   writing the matrix.
+3. If the user skips confirmation, record
+   `ownership_sync: skipped (user declined)` and continue; do not block the
+   library upgrade result solely for a declined ownership pass.
+4. If update-ownership is `OWNERSHIP_SYNC_BLOCKED` only because new agents are
+   required, note `NEEDS_NEW_AGENT` and point to `/extend-fleet`; library
+   upgrade may still be `ARCHITECT_UPGRADE_READY`.
+
+### 6. Report
 
 Return a short summary only:
 
@@ -157,8 +173,10 @@ Return a short summary only:
 5. Procedure adaptation mode (`FOLLOW` / `COMPOSE` / `BRIDGE` / `NONE`)
 6. Files created / updated / skipped under `agent-system/`
 7. `code-review-engineer` outcome (see step 4.7)
-8. Verification result
-9. Next step: `/operate` or `/architect-review <base>` (or `/audit` if they want a prompt audit)
+8. Ownership sync outcome (see step 5): applied / no changes / skipped / blocked
+9. Verification result
+10. Next step: `/operate`, `/architect-review <base>`, `/update-ownership`, or
+    `/extend-fleet` when `NEEDS_NEW_AGENT`
 
 ## Result status
 

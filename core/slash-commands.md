@@ -14,6 +14,7 @@ When the user types a slash command or an equivalent phrase, load the matching w
 | `/operate` | operate agents, delegate, handoff | [workflows/operate-agent-system.md](workflows/operate-agent-system.md) |
 | `/update-context` | refresh where context artifacts live | [workflows/update-context-mapping.md](workflows/update-context-mapping.md) |
 | `/upgrade-architect` | refresh fleet after library update, sync agent prompts | [workflows/upgrade-architect.md](workflows/upgrade-architect.md) |
+| `/update-ownership` | sync ownership matrix to repo/diff; confirm then write | [workflows/update-ownership.md](workflows/update-ownership.md) |
 | `/architect-review` | on-demand branch/PR code review; optional PR/MR comments | [workflows/architect-review.md](workflows/architect-review.md) |
 | `/architect` | start The Architect, Prompt Factory | [workflows/agent-system-builder.md](workflows/agent-system-builder.md) |
 
@@ -37,3 +38,6 @@ When the user types a slash command or an equivalent phrase, load the matching w
    draft confirmation, and `gh`/`glab`. Default reviewer:
    [templates/code-review-engineer.md](templates/code-review-engineer.md)
    unless the project fleet provides a REVIEWER override.
+9. `/update-ownership` proposes ownership-matrix updates from a repo or diff
+   scan and writes only after confirmation. `/upgrade-architect` runs the same
+   workflow after pack regenerate.

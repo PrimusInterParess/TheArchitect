@@ -36,6 +36,7 @@ REQUIRED_CORE = [
     "upgrade-architect.md",
     "update-context-mapping.md",
     "architect-review.md",
+    "update-ownership.md",
 ]
 
 REQUIRED_COMMANDS = [
@@ -51,6 +52,7 @@ REQUIRED_COMMANDS = [
     "upgrade-architect.md",
     "update-context.md",
     "architect-review.md",
+    "update-ownership.md",
 ]
 
 REQUIRED_RULES = [

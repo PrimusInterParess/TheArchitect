@@ -1,5 +1,22 @@
 # Changelog
 
+## 0.5.2 — 2026-07-31
+
+### Added
+
+- `/update-ownership` — scan repo or diff vs fleet ownership; propose matrix
+  updates; write only after user confirmation. Does not create agents or
+  regenerate the whole pack.
+- `/upgrade-architect` **chains** the same ownership sync after pack refresh
+  (user may decline the ownership pass without failing the library upgrade).
+
+### Upgrade path
+
+1. Update The Architect to **≥ 0.5.2**.
+2. Reload the IDE.
+3. Existing fleets: `/upgrade-architect` (pack + optional ownership sync) **or**
+   on-demand `/update-ownership` only.
+
 ## 0.5.1 — 2026-07-31
 
 ### Changed

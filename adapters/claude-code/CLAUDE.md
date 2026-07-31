@@ -6,7 +6,7 @@ Follow The Architect portable library in this repository.
 2. For slash commands listed in `core/slash-commands.md` — including
    `/architect`, `/discover`, `/brownfield`, `/hybrid`, `/generate-prompt-pack`,
    `/create-agent`, `/extend-fleet`, `/audit`, `/operate`, `/update-context`,
-   `/upgrade-architect`, `/architect-review` — load the matching workflow.
+   `/upgrade-architect`, `/update-ownership`, `/architect-review` — load the matching workflow.
 3. Default entry: `core/workflows/agent-system-builder.md`.
 4. Provider-neutral. Capability before provider.
 5. Discovery ends at `APPROVAL REQUIRED`.

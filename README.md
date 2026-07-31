@@ -453,7 +453,8 @@ thearchitect/
 | `/audit` | Review prompts / packs |
 | `/operate` | Orchestrate fleet: plan/map/implement via Architect + Task specialists |
 | `/update-context` | Refresh where context artifacts live |
-| `/upgrade-architect` | After a library update: regenerate `agent-system/` agent docs from the approved spec; **auto-adds `code-review-engineer` when missing** |
+| `/upgrade-architect` | After a library update: regenerate pack; auto-add reviewer; **then run ownership sync** |
+| `/update-ownership` | On demand: propose/confirm ownership-matrix updates from repo or diff |
 | `/architect-review` | On-demand review: current branch vs required base; optional PR/MR comments via `gh`/`glab` |
 
 Full map: [`core/slash-commands.md`](core/slash-commands.md)  
@@ -477,7 +478,9 @@ Uses the project `code-review-engineer` when present; otherwise
 [`core/templates/code-review-engineer.md`](core/templates/code-review-engineer.md).
 After a library update, **`/upgrade-architect` auto-creates** that project
 reviewer in existing fleets (unless the approved spec excludes code review).
-New packs also create it on generate.
+New packs also create it on generate. Ownership drift vs the live repo is
+handled by **`/update-ownership`** (also chained at the end of
+`/upgrade-architect`).
 
 ### Direct mode commands
 

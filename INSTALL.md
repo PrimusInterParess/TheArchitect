@@ -100,7 +100,9 @@ then an existing stamp only.
 5. Run `/operate` for planning or implementation.
 6. On-demand code review (no fleet required): `/architect-review <base>`.
 7. After a later library update: update files, then `/upgrade-architect`
-   (auto-adds `code-review-engineer` to existing fleets when missing).
+   (auto-adds `code-review-engineer` when missing, then runs ownership sync).
+8. On demand without a library bump: `/update-ownership` to refresh the
+   ownership matrix from the repo/diff.
 
 ## Updating to a new library version
 

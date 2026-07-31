@@ -23,6 +23,7 @@ Edit behavior in `core/`, not in the wrappers (except Cursor `description` trigg
 | `/operate` | `operate.md` |
 | `/update-context` | `update-context.md` |
 | `/upgrade-architect` | `upgrade-architect.md` |
+| `/update-ownership` | `update-ownership.md` |
 | `/architect-review` | `architect-review.md` |
 
 If a command does not appear, reload the window or ensure this repo (or an install that copied `.cursor/commands`) is the workspace root.
