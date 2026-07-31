@@ -22,7 +22,7 @@ Edit behavior in `core/`, not in the wrappers (except Cursor `description` trigg
 | `/audit` | `audit.md` |
 | `/operate` | `operate.md` |
 | `/update-context` | `update-context.md` |
-| `/upgrade-architect` | `upgrade-architect.md` (sole upgrade command; includes ownership sync) |
+| `/upgrade-architect` | skill `.cursor/skills/upgrade-architect/` (sole upgrade entry; includes ownership sync; skill-only so the slash menu can show a description) |
 | `/update-ownership` | `update-ownership.md` (on-demand ownership only — not an upgrade) |
 | `/architect-review` | `architect-review.md` |
 

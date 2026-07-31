@@ -49,10 +49,14 @@ REQUIRED_COMMANDS = [
     "extend-fleet.md",
     "audit.md",
     "operate.md",
-    "upgrade-architect.md",
     "update-context.md",
     "architect-review.md",
     "update-ownership.md",
+]
+
+# Upgrade is skill-only so the slash menu can show a YAML description.
+REQUIRED_SKILLS = [
+    "upgrade-architect",
 ]
 
 REQUIRED_RULES = [
@@ -113,6 +117,10 @@ def main() -> int:
     else:
         skill_dirs = sorted(p for p in SKILLS_DIR.iterdir() if p.is_dir())
         skill_count = len(skill_dirs)
+        found_skills = {p.name for p in skill_dirs}
+        for name in REQUIRED_SKILLS:
+            if name not in found_skills:
+                fail(f"missing Cursor skill: {name}", errors)
         for skill_dir in skill_dirs:
             skill_md = skill_dir / "SKILL.md"
             if not skill_md.is_file():
