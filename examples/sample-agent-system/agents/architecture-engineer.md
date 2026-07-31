@@ -89,7 +89,8 @@ providers; handoff suitable for backend-engineer delegation.
 
 ## 16. Definition of Done
 
-Design proposal delivered or BLOCKED with clear blockers; handoff complete.
+Design proposal delivered or BLOCKED with clear blockers; thin handoff under
+`handoff_dir`; design scratch only under `scratch_dir`.
 
 ## 17. Escalation Conditions
 
@@ -99,4 +100,5 @@ approvals, ownership conflict.
 ## 18. Prohibited Behaviors
 
 Invent providers; claim unrun tests; implement feature code under a design-only
-delegation; bypass Architect integration; dual-own catalog implementation.
+delegation; bypass Architect integration; dual-own catalog implementation;
+dump large trees under `handoffs/`.

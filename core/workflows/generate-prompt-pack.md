@@ -114,10 +114,12 @@ file-writing tools are available.
 3. Principal Architect / Orchestrator prompt
 4. One prompt per approved agent (18-section structure)
 5. Agent registry + ownership matrix + contract registry
-6. Task-delegation and handoff protocols
+6. Task-delegation and handoff protocols (include Close / cleanup)
 7. Execution workflow + approval/quality/integration policies
 8. Risk and decision register templates
 9. Examples + README + actual file tree in `SAVE` modes
+10. Operate working trees: `handoffs/{active,archive}/`, `scratch/`, pack
+    `.gitignore` for scratch and active handoffs
 
 Required layout:
 
@@ -125,6 +127,7 @@ Required layout:
 agent-system/
   project-specification.md  # preserve; do not regenerate or delete
   README.md
+  .gitignore                # scratch/, **/build-out/, handoffs/active/
   manifest.yaml
   governance/
     shared-context.yaml
@@ -139,18 +142,28 @@ agent-system/
     risk-register.yaml
     decision-register.yaml
   protocols/
-    task-delegation.yaml
+    task-delegation.yaml    # templates must show scratch_dir + handoff_dir
     agent-handoff.yaml
-    execution-workflow.md
+    task-close.yaml
+    execution-workflow.md   # includes reconcile + Close cleanup steps
     validation-report.yaml
   agents/
-    00-principal-architect.md
+    00-principal-architect.md  # cleanup is part of COMPLETE
     <one-file-per-approved-agent>.md
+  handoffs/
+    active/                 # .gitkeep; thin YAML/MD only at operate time
+    archive/                # optional sample summary.yaml
+  scratch/                  # .gitkeep; per-task disposable root
   examples/
     project-invocation.md
     delegation-examples.md
     handoff-example.yaml
 ```
+
+Handoffs are metadata-only; `artifacts:` are repo paths, `scratch/<task-id>/`
+paths, or PR/issue URLs — never embed build trees. Full operate rules:
+[operate-agent-system.md](operate-agent-system.md) (**Handoffs and scratch**,
+**READY reconciliation**, **Close**).
 
 ## File-writing rules
 
@@ -259,6 +272,9 @@ procedure path inventory under `existing_operating_procedures` (or explicitly
   written as verified project fact
 - Greenfield / empty style inventory is labeled `NONE` / `UNDECIDED` /
   `ARCHITECT_PROPOSED` rather than silent defaults
+- `handoffs/`, `scratch/`, `protocols/task-close.yaml`, and pack `.gitignore`
+  exist; task-delegation templates include `scratch_dir` / `handoff_dir`;
+  execution workflow includes reconcile + Close
 
 ## Save verification
 

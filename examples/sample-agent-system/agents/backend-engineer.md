@@ -16,7 +16,8 @@ Core implementer. Delegated by `principal-software-architect`. Collaborates only
 
 - Implement catalog list/get/create/update behavior in bounds.
 - Propose API/data contract updates when needed.
-- Return complete agent-handoff packages.
+- Return thin agent-handoff packages under `handoff_dir` (YAML/MD metadata only).
+- Put probes/builds/temp only under delegation `scratch_dir`.
 - Keep solutions provider-neutral unless approved.
 
 ## 5. Explicit Non-Responsibilities
@@ -68,7 +69,8 @@ Acceptance criteria from delegation; no out-of-scope files; validation honesty.
 
 ## 16. Definition of Done
 
-Delegation DoD met or BLOCKED with clear blockers; handoff complete.
+Delegation DoD met or BLOCKED with clear blockers; thin handoff under
+`handoff_dir`; no build trees under `handoffs/`.
 
 ## 17. Escalation Conditions
 
@@ -76,4 +78,5 @@ Need provider choice, breaking API change, scope contradiction, missing approval
 
 ## 18. Prohibited Behaviors
 
-Invent providers; claim unrun tests; expand into UI/payments; bypass Architect integration.
+Invent providers; claim unrun tests; expand into UI/payments; bypass Architect
+integration; write probes/builds under `handoffs/` instead of `scratch_dir`.

@@ -7,6 +7,19 @@ Minimal, complete prompt pack for The Architect demos and CI validation.
 - Provider scope: generic / provider-neutral
 - No secrets
 
+## Operate working trees
+
+| Path | Purpose |
+|---|---|
+| `handoffs/active/<task-id>/` | Thin YAML/MD handoffs only (gitignored) |
+| `handoffs/archive/<task-id>/summary.yaml` | Short Close record |
+| `scratch/<task-id>/` | Probes, builds, temp — always disposable |
+
+Durable fleet material stays in `agents/`, `governance/`, `protocols/`.
+Do not put operate scratch under `docs/architecture/handoffs/`.
+
+See pack `.gitignore` and `protocols/task-close.yaml`.
+
 Validate from repo root:
 
 ```powershell

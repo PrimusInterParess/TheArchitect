@@ -4,11 +4,19 @@
   "title": "Task delegation envelope",
   "type": "object",
   "additionalProperties": true,
-  "required": ["task_id", "agent_id", "objective"],
+  "required": ["task_id", "agent_id", "objective", "scratch_dir"],
   "properties": {
     "task_id": { "type": "string" },
     "agent_id": { "type": "string" },
     "objective": { "type": "string" },
+    "scratch_dir": {
+      "type": "string",
+      "description": "Mandatory per-task disposable root, e.g. agent-system/scratch/<TASK-ID>/. All probes, builds, and temp files go here — never under handoffs/."
+    },
+    "handoff_dir": {
+      "type": "string",
+      "description": "Thin YAML/MD handoff write path, e.g. agent-system/handoffs/active/<TASK-ID>/."
+    },
     "scope": { "type": ["string", "object", "array"] },
     "contracts": { "type": ["array", "object"] },
     "definition_of_done": { "type": ["string", "array"] },

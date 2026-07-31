@@ -1,5 +1,42 @@
 # Changelog
 
+## 0.5.4 — 2026-07-31
+
+### Added
+
+- `/operate` **Handoffs and scratch** layout: thin YAML/MD under
+  `agent-system/handoffs/active/<task-id>/`, disposable
+  `agent-system/scratch/<task-id>/`, short
+  `handoffs/archive/<task-id>/summary.yaml` after Close.
+- Mandatory `scratch_dir` (and `handoff_dir`) on task-delegation envelopes /
+  schema.
+- **Close** cleanup gate in the operate loop:
+  Validate → Integrate → Approve → Close (archive summary, wipe scratch,
+  clear active; fail on binary or >64 KB under `handoffs/`).
+- **READY reconciliation** before C/D resume, E next-action, or Integrate:
+  mismatch → `STALE`, no integrate, do not skip diagnosis.
+- **Same-task restart gate**: if `handoffs/active/<task-id>/` or
+  `scratch/<task-id>/` already exists, ask Resume vs Fresh start (wipe via
+  Close-abandon) before continuing — new threads do not auto-resume or
+  auto-wipe.
+- Pack protocol `protocols/task-close.yaml`; sample `.gitignore`,
+  `handoffs/`, `scratch/` convention; Principal “cleanup is part of COMPLETE”.
+
+### Fixed
+
+- Stale READY handoffs no longer trusted without working-tree checks (#1).
+- Per-issue operate working docs no longer mix with durable fleet material (#2);
+  supersedes a single `debug/` dump with handoffs + scratch split.
+
+### Upgrade path
+
+1. Update The Architect to **≥ 0.5.4**.
+2. Reload the IDE.
+3. Run **`/upgrade-architect`** (or regenerate pack) so fleets gain
+   `handoffs/`, `scratch/`, `task-close.yaml`, and execution-workflow Close
+   steps. Existing loose handoffs under `agent-system/` should be moved under
+   `handoffs/active/<task-id>/` or closed via the Close gate.
+
 ## 0.5.3 — 2026-07-31
 
 ### Added

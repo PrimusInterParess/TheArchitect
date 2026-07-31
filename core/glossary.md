@@ -66,6 +66,18 @@ Always record both in `governance/agent-registry.yaml` (`id` + `prompt_file`).
 - `PROPOSED — APPROVAL REQUIRED`
 - `NOT_READY — BLOCKING_INFORMATION_REQUIRED`
 
+## Operate handoff / request status
+
+| Layer | Tokens | Retention |
+|---|---|---|
+| Agent handoff | `READY`, `BLOCKED`, `STALE`, `NEEDS_REVIEW` | `READY`/`BLOCKED` stay in `handoffs/active/<task-id>/` until Close; `STALE` must not integrate |
+| Request close | `REQUEST COMPLETE`, `REQUEST COMPLETE WITH DOCUMENTED LIMITATIONS`, `REQUEST BLOCKED`, `ABANDONED` | On complete/limitations/abandoned: archive summary + wipe scratch + clear active |
+
+Operate paths: `agent-system/handoffs/{active,archive}/`,
+`agent-system/scratch/<task-id>/`. Same task id with existing data → ask
+**Resume** vs **Fresh start** before continuing. See
+[workflows/operate-agent-system.md](workflows/operate-agent-system.md).
+
 ## Style, skills, and knowledge
 
 Code style, design patterns, skills, and domain knowledge are **project paths

@@ -1,4 +1,4 @@
-library_version: "0.5.3"
+library_version: "0.5.4"
 project_name: sample-catalog-api
 
 prompt_pack:
@@ -44,7 +44,11 @@ artifacts:
   ownership_matrix: governance/ownership-matrix.md
   task_protocol: protocols/task-delegation.yaml
   handoff_protocol: protocols/agent-handoff.yaml
+  task_close_protocol: protocols/task-close.yaml
   execution_workflow: protocols/execution-workflow.md
+  handoffs_active: handoffs/active/
+  handoffs_archive: handoffs/archive/
+  scratch_root: scratch/
 
 provider_decisions: []
 assumptions:

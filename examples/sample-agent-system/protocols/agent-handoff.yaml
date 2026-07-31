@@ -14,6 +14,7 @@ handoff:
     out_of_scope:
       - Authentication
 
+  # Paths/URLs only — never embed bin/, obj/, node_modules/, coverage, build-out/
   artifacts:
     - name: catalog-list-sketch
       reference: examples/handoff-example.yaml

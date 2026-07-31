@@ -11,14 +11,20 @@
     "status": {
       "type": "string",
       "enum": [
-        "COMPLETE",
-        "COMPLETE_WITH_LIMITATIONS",
+        "READY",
         "BLOCKED",
-        "NEEDS_REVIEW"
-      ]
+        "STALE",
+        "NEEDS_REVIEW",
+        "COMPLETE",
+        "COMPLETE_WITH_LIMITATIONS"
+      ],
+      "description": "Agent-level status. READY/BLOCKED stay in handoffs/active until request Close. STALE must not be integrated. COMPLETE* accepted as legacy aliases of READY with limitations noted in summary."
     },
     "summary": { "type": "string" },
-    "artifacts": { "type": ["array", "object"] },
+    "artifacts": {
+      "type": ["array", "object"],
+      "description": "References only: repo paths, scratch/<task-id>/ paths, or PR/issue URLs. Never embed build trees (bin/, obj/, node_modules/, coverage, build-out/)."
+    },
     "evidence": { "type": ["array", "object", "string"] },
     "blockers": { "type": ["array", "string"] },
     "follow_ups": { "type": ["array", "string"] }

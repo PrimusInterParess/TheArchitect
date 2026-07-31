@@ -12,6 +12,7 @@ handoff:
       - Persistence
     out_of_scope:
       - Auth
+  # Paths/URLs only — never embed build trees under handoffs/
   artifacts:
     - name: list-items-sketch
       reference: protocols/agent-handoff.yaml

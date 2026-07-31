@@ -8,6 +8,10 @@ delegation:
   reviewers:
     - principal-software-architect
 
+  # Mandatory per-task disposable root — probes/builds/temp only here
+  scratch_dir: agent-system/scratch/TASK-SAMPLE-001/
+  handoff_dir: agent-system/handoffs/active/TASK-SAMPLE-001/
+
   objective: Propose a minimal list-catalog-items HTTP endpoint shape without selecting a cloud provider.
   business_context: Sample Catalog API demo; fictional greenfield.
 
@@ -42,11 +46,13 @@ delegation:
     - quality-gates.md
   required_approvals: []
   expected_artifacts:
-    - API sketch or code under delegated paths
+    - API sketch or code under delegated paths (reference via path/URL in handoff)
   handoff_consumers:
     - principal-software-architect
 
   stop_conditions:
     - Missing approval for provider binding
   definition_of_done:
-    - Handoff READY or BLOCKED with clear next actions
+    - Thin handoff READY or BLOCKED under handoff_dir with clear next actions
+    - No build trees or large dumps under handoffs/
+    - Scratch used for any probes; Close will delete scratch_dir

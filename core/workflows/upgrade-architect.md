@@ -149,10 +149,16 @@ these upgrade rules:
    architecture design, **create and wire it** during this SAVE.
    Do not tell the user to run `/extend-fleet` / `/create-agent` for this
    default agent.
-7. Verify with the generate-prompt-pack save verification steps.
-8. In the upgrade summary, state reviewer and architecture-engineer outcomes:
+7. Ensure operate working trees and Close protocol exist (create if missing):
+   `handoffs/active/` (+ `.gitkeep`), `handoffs/archive/`, `scratch/` (+
+   `.gitkeep`), `protocols/task-close.yaml`, pack `.gitignore` entries for
+   `scratch/`, `**/build-out/`, and `handoffs/active/`. Refresh
+   `execution-workflow.md` and Principal DoD so Close cleanup is part of
+   COMPLETE. Do not delete user archive summaries.
+8. Verify with the generate-prompt-pack save verification steps.
+9. In the upgrade summary, state reviewer and architecture-engineer outcomes:
    each as `created` | `refreshed` | `skipped (excluded)` |
-   `skipped (equivalent exists)`.
+   `skipped (equivalent exists)`; also note handoffs/scratch/Close outcomes.
 
 ### 5. Ownership sync (required chain)
 

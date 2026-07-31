@@ -6,6 +6,8 @@
 - Delegator: `principal-software-architect`
 - Objective: Document list-items route and response fields
 - Excluded: auth, payments, deploy
+- `scratch_dir`: `agent-system/scratch/TASK-SAMPLE-001/`
+- `handoff_dir`: `agent-system/handoffs/active/TASK-SAMPLE-001/`
 
 See `protocols/task-delegation.yaml` for the filled envelope.
 
