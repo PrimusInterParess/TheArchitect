@@ -220,7 +220,12 @@ For options **C** and **D** (and any authorized specialist work under `/operate`
 1. Parent chat = `principal-software-architect` only: plan, select agents,
    write/save delegation envelopes, integrate handoffs, run approval gates.
 2. Parent must **not** implement work owned by another registered agent
-   (backend, frontend, UX, PM, QA, etc.) inside the parent turn.
+   (architecture-engineer, backend, frontend, UX, PM, QA, etc.) inside the
+   parent turn. When the request is architecture design, redesign of an
+   existing feature, or a new feature that needs unsettled structural /
+   contract choices, select `architecture-engineer` (or the pack's equivalent
+   design owner) **before or alongside** feature implementers; Principal still
+   orchestrates and integrates.
 3. For each selected primary agent, launch an isolated subagent/Task run:
    - Prefer a general-purpose implementation/design runner; use an explore /
      read-only runner only for research.

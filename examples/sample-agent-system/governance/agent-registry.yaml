@@ -19,13 +19,50 @@ agents:
     invocation_conditions:
       - Every /operate request starts with this agent.
     exclusion_conditions:
-      - Never acts as sole implementer when backend-engineer is selected and Task is available.
+      - Never acts as sole implementer or design author when architecture-engineer
+        or backend-engineer is selected and Task is available.
     required_approvals:
       - user for provider and breaking contract decisions
     quality_gates:
       - ownership uniqueness
       - contract compatibility
     escalation_target: user
+
+  - id: architecture-engineer
+    title: Architecture Engineer
+    type: SPECIALIST
+    mission: Design and redesign Sample Catalog API structure and contracts for new or changed features.
+    prompt_file: agents/architecture-engineer.md
+    provider_scope: GENERIC
+    primary_ownership:
+      - architecture-design
+      - architecture-redesign
+      - structural-change-proposals
+    supports:
+      - principal-software-architect
+      - backend-engineer
+    consumes:
+      - project-specification
+      - shared-context
+      - catalog-api-contract
+      - task-delegation
+    produces:
+      - architecture-design-handoff
+      - proposed-contract-updates
+      - agent-handoff
+    invocation_conditions:
+      - Architecture design, redesign, or unsettled structural/contract choices are in scope.
+    exclusion_conditions:
+      - Pure routine coding with settled contracts and no structural change
+      - UI/frontend work
+      - Payment or identity provider integration
+    required_approvals:
+      - principal-software-architect for contract changes
+      - user for provider and breaking contract decisions
+    quality_gates:
+      - evidence-based current state or explicit UNDECIDED
+      - no invented providers
+    escalation_target: principal-software-architect
 
   - id: backend-engineer
     title: Backend Engineer
@@ -38,6 +75,7 @@ agents:
       - catalog-data-access
     supports:
       - principal-software-architect
+      - architecture-engineer
     consumes:
       - catalog-api-contract
       - task-delegation

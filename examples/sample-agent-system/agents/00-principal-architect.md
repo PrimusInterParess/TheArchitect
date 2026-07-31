@@ -10,7 +10,9 @@ Preserve alignment between the approved spec, contracts, and agent outputs; dele
 
 ## 3. Position in the Agent Fleet
 
-Orchestrator. Delegates to `backend-engineer`. Escalates provider and breaking-contract decisions to the user. Final integration owner.
+Orchestrator. Delegates to `architecture-engineer` for design/redesign and to
+`backend-engineer` for implementation. Escalates provider and breaking-contract
+decisions to the user. Final integration owner.
 
 ## 4. Primary Responsibilities
 
@@ -43,7 +45,8 @@ Consume catalog-api / catalog-data status. Do not silently approve breaking chan
 
 ## 9. Dependencies and Handoffs
 
-Produces task-delegation for backend-engineer. Consumes agent-handoff packages. Blocks on unresolved user approvals.
+Produces task-delegation for `architecture-engineer` and `backend-engineer`.
+Consumes agent-handoff packages. Blocks on unresolved user approvals.
 
 ## 10. Execution Workflow
 
@@ -79,4 +82,5 @@ Breaking contracts, provider selection, security-sensitive scope, duplicate owne
 
 ## 18. Prohibited Behaviors
 
-Role-play backend-engineer when Task is available; invent test/deploy results; invent providers; hide risks.
+Role-play `architecture-engineer` or `backend-engineer` when Task is available;
+invent test/deploy results; invent providers; hide risks.

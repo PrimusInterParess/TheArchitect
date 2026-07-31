@@ -1,10 +1,10 @@
-library_version: "0.4.0"
+library_version: "0.5.3"
 project_name: sample-catalog-api
 
 prompt_pack:
   id: sample-catalog-api-pack
   name: Sample Catalog API Agent System
-  version: "1.0.0"
+  version: "1.1.0"
   project_mode: GREENFIELD
   specification_status: APPROVED
 
@@ -21,6 +21,13 @@ agents:
     type: ORCHESTRATOR
     provider_scope: GENERIC
     invocation: ALWAYS
+    status: ACTIVE
+  - id: architecture-engineer
+    title: Architecture Engineer
+    prompt_file: agents/architecture-engineer.md
+    type: SPECIALIST
+    provider_scope: GENERIC
+    invocation: CONDITIONAL
     status: ACTIVE
   - id: backend-engineer
     title: Backend Engineer

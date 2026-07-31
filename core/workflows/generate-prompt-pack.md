@@ -45,6 +45,32 @@ On `/upgrade-architect` regenerations, if the agent is missing and not
 excluded, **add it** — do not wait for `/extend-fleet` or `/create-agent`.
 Report `code-review-engineer: created | refreshed | skipped (excluded|exists)`.
 
+### Default architecture engineer (required in SAVE packs)
+
+Unless the approved specification **explicitly excludes** architecture design /
+redesign ownership (Excluded Agents or equivalent), or already names an
+equivalent architecture-design SPECIALIST id, **SAVE modes must create
+`architecture-engineer`** in the pack:
+
+1. Write `agents/architecture-engineer.md` (all 18 sections).
+2. Register it in `manifest.yaml` and `governance/agent-registry.yaml`
+   (`type: SPECIALIST`, invocation conditional).
+3. Add ownership for architecture design, redesign of existing features, and
+   structural shape for new implementation.
+4. Split ownership clearly:
+   - Principal Architect owns orchestration, delegation, and integration.
+   - `architecture-engineer` owns design/redesign proposals and design handoffs.
+   - Feature engineers own implementation in delegated paths.
+   - `code-review-engineer` owns diff/intent/architecture/security **review
+     findings** (not authoring the design).
+5. Seed quality bar from
+   [../templates/architecture-engineer.md](../templates/architecture-engineer.md);
+   bind project paths/contracts from shared context (do not invent providers).
+
+On `/upgrade-architect` regenerations, if the agent is missing and not
+excluded, **add it** — do not wait for `/extend-fleet` or `/create-agent`.
+Report `architecture-engineer: created | refreshed | skipped (excluded|exists)`.
+
 ## Existing operating procedures
 
 Before writing agent prompts, read the specification section

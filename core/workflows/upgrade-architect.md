@@ -142,9 +142,17 @@ these upgrade rules:
    does not exclude code review, **create and wire it** during this SAVE.
    Do not tell the user to run `/extend-fleet` / `/create-agent` for this
    default agent.
-6. Verify with the generate-prompt-pack save verification steps.
-7. In the upgrade summary, state reviewer outcome:
-   `created` | `refreshed` | `skipped (excluded)` | `skipped (equivalent exists)`.
+6. **Auto-ensure architecture engineer:** follow generate-prompt-pack
+   **Default architecture engineer (required in SAVE packs)**. If
+   `architecture-engineer` (or an equivalent SPECIALIST already owning
+   architecture design/redesign) is absent and the spec does not exclude
+   architecture design, **create and wire it** during this SAVE.
+   Do not tell the user to run `/extend-fleet` / `/create-agent` for this
+   default agent.
+7. Verify with the generate-prompt-pack save verification steps.
+8. In the upgrade summary, state reviewer and architecture-engineer outcomes:
+   each as `created` | `refreshed` | `skipped (excluded)` |
+   `skipped (equivalent exists)`.
 
 ### 5. Ownership sync (required chain)
 
@@ -172,10 +180,11 @@ Return a short summary only:
 4. Spec path + approval status
 5. Procedure adaptation mode (`FOLLOW` / `COMPOSE` / `BRIDGE` / `NONE`)
 6. Files created / updated / skipped under `agent-system/`
-7. `code-review-engineer` outcome (see step 4.7)
-8. Ownership sync outcome (see step 5): applied / no changes / skipped / blocked
-9. Verification result
-10. Next step: `/operate`, `/architect-review <base>`, `/update-ownership`, or
+7. `code-review-engineer` outcome (see step 4)
+8. `architecture-engineer` outcome (see step 4)
+9. Ownership sync outcome (see step 5): applied / no changes / skipped / blocked
+10. Verification result
+11. Next step: `/operate`, `/architect-review <base>`, `/update-ownership`, or
     `/extend-fleet` when `NEEDS_NEW_AGENT`
 
 ## Result status

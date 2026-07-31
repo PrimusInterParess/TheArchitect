@@ -419,7 +419,7 @@ thearchitect/
     slash-commands.md
     glossary.md
     workflows/              # Portable logic (source of truth)
-    templates/              # Library defaults (e.g. code-review-engineer)
+    templates/              # Library defaults (code-review-engineer, architecture-engineer)
   schemas/                  # Discovery + pack/operate contracts
   examples/
     sample-requirements-spec.md
@@ -453,7 +453,7 @@ thearchitect/
 | `/audit` | Review prompts / packs |
 | `/operate` | Orchestrate fleet: plan/map/implement via Architect + Task specialists |
 | `/update-context` | Refresh where context artifacts live |
-| `/upgrade-architect` | After a library update: regenerate pack; auto-add reviewer; **then run ownership sync** |
+| `/upgrade-architect` | After a library update: regenerate pack; auto-add reviewer + architecture-engineer; **then run ownership sync** |
 | `/update-ownership` | On demand: propose/confirm ownership-matrix updates from repo or diff |
 | `/architect-review` | On-demand review: current branch vs required base; optional PR/MR comments via `gh`/`glab` |
 
@@ -477,10 +477,10 @@ after you choose what to post and confirm a draft.
 Uses the project `code-review-engineer` when present; otherwise
 [`core/templates/code-review-engineer.md`](core/templates/code-review-engineer.md).
 After a library update, **`/upgrade-architect` auto-creates** that project
-reviewer in existing fleets (unless the approved spec excludes code review).
-New packs also create it on generate. Ownership drift vs the live repo is
-handled by **`/update-ownership`** (also chained at the end of
-`/upgrade-architect`).
+reviewer and **`architecture-engineer`** in existing fleets (unless the
+approved spec excludes them). New packs also create both on generate.
+Ownership drift vs the live repo is handled by **`/update-ownership`** (also
+chained at the end of `/upgrade-architect`).
 
 ### Direct mode commands
 

@@ -1,5 +1,28 @@
 # Changelog
 
+## 0.5.3 — 2026-07-31
+
+### Added
+
+- Default fleet SPECIALIST **`architecture-engineer`**: SAVE packs must create
+  it unless the approved spec excludes architecture design/redesign or an
+  equivalent owner already exists.
+- `core/templates/architecture-engineer.md` — library seed prompt for design /
+  redesign handoffs (Principal orchestrates; feature engineers implement;
+  `code-review-engineer` owns review findings).
+- `/upgrade-architect` + `generate-prompt-pack` **auto-create**
+  `architecture-engineer` when regenerating (same hard rule as
+  `code-review-engineer`).
+- Sample fleet updated to include `architecture-engineer`.
+
+### Upgrade path
+
+1. Update The Architect to **≥ 0.5.3**.
+2. Reload the IDE.
+3. Run **`/upgrade-architect`** in each app with a fleet — the library
+   creates/wires `agents/architecture-engineer.md` when missing (unless
+   excluded).
+
 ## 0.5.2 — 2026-07-31
 
 ### Added

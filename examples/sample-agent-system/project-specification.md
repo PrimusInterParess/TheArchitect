@@ -24,6 +24,7 @@ GREENFIELD
 ## 5. Recommended Agent Fleet
 
 - principal-software-architect
+- architecture-engineer
 - backend-engineer
 
 ## 6. Excluded Agents

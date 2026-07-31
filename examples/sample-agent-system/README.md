@@ -3,7 +3,7 @@
 Minimal, complete prompt pack for The Architect demos and CI validation.
 
 - Project: Sample Catalog API (fictional greenfield)
-- Fleet: Principal Architect + Backend Engineer
+- Fleet: Principal Architect + Architecture Engineer + Backend Engineer
 - Provider scope: generic / provider-neutral
 - No secrets
 
