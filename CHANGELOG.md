@@ -1,11 +1,28 @@
 # Changelog
 
+## 0.5.1 — 2026-07-31
+
+### Changed
+
+- `/upgrade-architect` + `generate-prompt-pack` **must auto-create**
+  `code-review-engineer` in existing fleets when regenerating (unless the
+  approved spec excludes code review or an equivalent REVIEWER already
+  exists). Users should not need `/extend-fleet` / `/create-agent` for this
+  default reviewer.
+
+### Upgrade path for existing apps (e.g. TheraPro / sunshine-summarizer)
+
+1. Update The Architect library to **≥ 0.5.1**.
+2. Reload the IDE.
+3. Run **`/upgrade-architect`** in the app — the library creates/wires
+   `agents/code-review-engineer.md` into the pack.
+4. Use `/architect-review <base>` (project reviewer overrides the library
+   template).
+
 ## 0.5.0 — 2026-07-31
 
 Library capability release: on-demand **`/architect-review`**. Consumers get the
-command when they update library files (reload IDE adapters if needed). Run
-`/upgrade-architect` in apps that already have a fleet so packs pick up the
-recommended `code-review-engineer`.
+command when they update library files (reload IDE adapters if needed).
 
 ### Added
 
@@ -23,7 +40,8 @@ recommended `code-review-engineer`.
 1. Update The Architect checkout (submodule / pull / `scripts/update-into-project.*`).
 2. Reload the IDE if adapters/commands changed.
 3. Use `/architect-review <base>` immediately (works without a fleet).
-4. Optional: `/upgrade-architect` to add/refresh `code-review-engineer` in the pack.
+4. Run `/upgrade-architect` so the pack gains `code-review-engineer`
+   automatically (see **0.5.1** for the hard auto-create rule).
 
 ## 0.4.0 — 2026-07-30
 

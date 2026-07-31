@@ -453,7 +453,7 @@ thearchitect/
 | `/audit` | Review prompts / packs |
 | `/operate` | Orchestrate fleet: plan/map/implement via Architect + Task specialists |
 | `/update-context` | Refresh where context artifacts live |
-| `/upgrade-architect` | After a library update: regenerate `agent-system/` agent docs from the approved spec |
+| `/upgrade-architect` | After a library update: regenerate `agent-system/` agent docs from the approved spec; **auto-adds `code-review-engineer` when missing** |
 | `/architect-review` | On-demand review: current branch vs required base; optional PR/MR comments via `gh`/`glab` |
 
 Full map: [`core/slash-commands.md`](core/slash-commands.md)  
@@ -475,7 +475,9 @@ after you choose what to post and confirm a draft.
 
 Uses the project `code-review-engineer` when present; otherwise
 [`core/templates/code-review-engineer.md`](core/templates/code-review-engineer.md).
-New/upgraded fleets recommend that reviewer via generate-prompt-pack.
+After a library update, **`/upgrade-architect` auto-creates** that project
+reviewer in existing fleets (unless the approved spec excludes code review).
+New packs also create it on generate.
 
 ### Direct mode commands
 

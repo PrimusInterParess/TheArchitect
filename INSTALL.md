@@ -99,7 +99,8 @@ then an existing stamp only.
    `agent-system/`. Use `/generate-prompt-pack` only to regenerate or recover.
 5. Run `/operate` for planning or implementation.
 6. On-demand code review (no fleet required): `/architect-review <base>`.
-7. After a later library update: update files, then `/upgrade-architect`.
+7. After a later library update: update files, then `/upgrade-architect`
+   (auto-adds `code-review-engineer` to existing fleets when missing).
 
 ## Updating to a new library version
 

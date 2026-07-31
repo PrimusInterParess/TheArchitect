@@ -26,16 +26,24 @@ Generate a project-specific multi-agent prompt pack. Do **not** implement the ap
 
 Specialize agents only for verified or approved providers. Prefer generic capability agents when undecided.
 
-### Default reviewer recommendation
+### Default reviewer (required in SAVE packs)
 
-Unless the approved specification **excludes** code review / PR quality, or
-already names an equivalent REVIEWER, **include `code-review-engineer`** in the
-recommended fleet and generated pack so `/architect-review` can override the
-library default with a project-owned reviewer after `/upgrade-architect`.
+Unless the approved specification **explicitly excludes** code review / PR
+quality (Excluded Agents or equivalent), or already names an equivalent
+REVIEWER id, **SAVE modes must create `code-review-engineer`** in the pack:
 
-Align the agent’s quality bar with
-[../templates/code-review-engineer.md](../templates/code-review-engineer.md)
-(paths/contracts may be project-specific; do not invent providers).
+1. Write `agents/code-review-engineer.md` (all 18 sections).
+2. Register it in `manifest.yaml` and `governance/agent-registry.yaml`.
+3. Add ownership for PR/diff review and `/architect-review` override.
+4. Split from `qa-engineer` when both exist: QA owns test evidence; 
+   `code-review-engineer` owns diff/intent/architecture/security review findings.
+5. Seed quality bar from
+   [../templates/code-review-engineer.md](../templates/code-review-engineer.md);
+   bind project paths/contracts from shared context (do not invent providers).
+
+On `/upgrade-architect` regenerations, if the agent is missing and not
+excluded, **add it** — do not wait for `/extend-fleet` or `/create-agent`.
+Report `code-review-engineer: created | refreshed | skipped (excluded|exists)`.
 
 ## Existing operating procedures
 

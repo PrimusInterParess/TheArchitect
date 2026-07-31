@@ -136,7 +136,15 @@ these upgrade rules:
    using **current** core rules.
 3. Preserve `project-specification.md` (and plan/mapping files above).
 4. Bind `existing_operating_procedures` into shared context when adopted.
-5. Verify with the generate-prompt-pack save verification steps.
+5. **Auto-ensure project reviewer:** follow generate-prompt-pack **Default
+   reviewer (required in SAVE packs)**. If `code-review-engineer` (or an
+   equivalent REVIEWER already owning PR/diff review) is absent and the spec
+   does not exclude code review, **create and wire it** during this SAVE.
+   Do not tell the user to run `/extend-fleet` / `/create-agent` for this
+   default agent.
+6. Verify with the generate-prompt-pack save verification steps.
+7. In the upgrade summary, state reviewer outcome:
+   `created` | `refreshed` | `skipped (excluded)` | `skipped (equivalent exists)`.
 
 ### 5. Report
 
@@ -148,8 +156,9 @@ Return a short summary only:
 4. Spec path + approval status
 5. Procedure adaptation mode (`FOLLOW` / `COMPOSE` / `BRIDGE` / `NONE`)
 6. Files created / updated / skipped under `agent-system/`
-7. Verification result
-8. Next step: `/operate` (or `/audit` if they want a review pass)
+7. `code-review-engineer` outcome (see step 4.7)
+8. Verification result
+9. Next step: `/operate` or `/architect-review <base>` (or `/audit` if they want a prompt audit)
 
 ## Result status
 
