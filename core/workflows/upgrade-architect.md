@@ -155,10 +155,16 @@ these upgrade rules:
    `scratch/`, `**/build-out/`, and `handoffs/active/`. Refresh
    `execution-workflow.md` and Principal DoD so Close cleanup is part of
    COMPLETE. Do not delete user archive summaries.
-8. Verify with the generate-prompt-pack save verification steps.
-9. In the upgrade summary, state reviewer and architecture-engineer outcomes:
+8. **Legacy operate piles:** scan for loose handoffs, `debug/` trees, and
+   build dumps under operate paths (see operate-agent-system **Legacy operate
+   piles**). Present M1 Keep-as-active / M2 Archive+clean / M3 Delete; never
+   silent-delete thin YAML. Always remove `bin/` / `obj/` / `build-out/` /
+   coverage dumps from handoff areas. Record outcome in the upgrade summary.
+9. Verify with the generate-prompt-pack save verification steps.
+10. In the upgrade summary, state reviewer and architecture-engineer outcomes:
    each as `created` | `refreshed` | `skipped (excluded)` |
-   `skipped (equivalent exists)`; also note handoffs/scratch/Close outcomes.
+   `skipped (equivalent exists)`; also note handoffs/scratch/Close and legacy
+   pile migration outcomes.
 
 ### 5. Ownership sync (required chain)
 

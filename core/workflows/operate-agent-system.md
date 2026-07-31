@@ -309,6 +309,52 @@ agent-system/
 Do **not** put operate scratch under `docs/architecture/handoffs/` — that path
 is for intentional migration notes, not disposable debug trees.
 
+### Legacy operate piles (pre-layout / unclean trees)
+
+Users who already generated handoffs before this layout (or mixed builds into
+operate folders) are **not** stuck. On `/operate` or `/upgrade-architect`,
+detect legacy material and handle it with an explicit user choice — never
+silent delete of thin YAML the user may still want.
+
+**Scan for (examples):**
+
+- Loose `*handoff*.yaml`, `*delegation*.yaml`, validation notes at
+  `agent-system/` root or `agent-system/handoffs/*.yaml` (not under
+  `active/<task-id>/`)
+- `agent-system/debug/`, `debug/<issue-id>/`, or similarly named disposable
+  trees
+- `bin/`, `obj/`, `node_modules/`, coverage, `build-out/`, publish dirs under
+  any handoff/debug path
+- Orphan `scratch/<old-id>/` or active folders for issues the user is no
+  longer driving
+
+**Do not treat as legacy operate junk:** durable pack files (`agents/`,
+`governance/`, protocol *templates*, approved spec, plans/mappings), or
+intentional notes under `docs/architecture/handoffs/`.
+
+**Ask once (group by task/issue id when possible):**
+
+```text
+Found existing operate data for <task-id or "unscoped pile">.
+
+M1. Keep as active (migrate into handoffs/active/<task-id>/)
+    Move thin YAML/MD only; then Same-task restart gate (Resume vs Fresh)
+    applies on the next run for that id.
+
+M2. Archive + clean (recommended if the issue is done or abandoned)
+    Write handoffs/archive/<task-id>/summary.yaml (status + PR + limitations);
+    delete scratch/debug/build dumps for that id; clear migrated active.
+
+M3. Delete without archive (only if user confirms nothing useful remains)
+```
+
+Always **delete build trees and large dumps** regardless of M1–M3 (they never
+belong under handoffs). Promote any still-useful finding into Jira / ADR / PR
+before M2/M3 when the user cares about it.
+
+After migration, new runs use only `handoffs/active|archive` + `scratch/` and
+the Same-task restart gate.
+
 ### Handoff package rules
 
 - YAML/MD packages only under `handoffs/`.

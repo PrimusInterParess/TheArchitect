@@ -34,8 +34,11 @@
 2. Reload the IDE.
 3. Run **`/upgrade-architect`** (or regenerate pack) so fleets gain
    `handoffs/`, `scratch/`, `task-close.yaml`, and execution-workflow Close
-   steps. Existing loose handoffs under `agent-system/` should be moved under
-   `handoffs/active/<task-id>/` or closed via the Close gate.
+   steps.
+4. When legacy piles exist (loose handoffs, `debug/`, build dumps), Architect
+   asks **M1** migrate-to-active / **M2** archive+clean (usual) / **M3**
+   delete — see operate-agent-system **Legacy operate piles**. Build trees
+   under handoff paths are always removed.
 
 ## 0.5.3 — 2026-07-31
 

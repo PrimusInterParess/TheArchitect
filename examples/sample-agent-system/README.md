@@ -18,6 +18,11 @@ Minimal, complete prompt pack for The Architect demos and CI validation.
 Durable fleet material stays in `agents/`, `governance/`, `protocols/`.
 Do not put operate scratch under `docs/architecture/handoffs/`.
 
+If an app already has loose handoffs / debug dumps from older runs, run
+`/upgrade-architect` or `/operate` and choose migrate (M1), archive+clean
+(M2), or delete (M3) — see The Architect operate workflow **Legacy operate
+piles**.
+
 See pack `.gitignore` and `protocols/task-close.yaml`.
 
 Validate from repo root:
