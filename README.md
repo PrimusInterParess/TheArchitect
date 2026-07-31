@@ -419,6 +419,7 @@ thearchitect/
     slash-commands.md
     glossary.md
     workflows/              # Portable logic (source of truth)
+    templates/              # Library defaults (e.g. code-review-engineer)
   schemas/                  # Discovery + pack/operate contracts
   examples/
     sample-requirements-spec.md
@@ -453,11 +454,28 @@ thearchitect/
 | `/operate` | Orchestrate fleet: plan/map/implement via Architect + Task specialists |
 | `/update-context` | Refresh where context artifacts live |
 | `/upgrade-architect` | After a library update: regenerate `agent-system/` agent docs from the approved spec |
+| `/architect-review` | On-demand review: current branch vs required base; optional PR/MR comments via `gh`/`glab` |
 
 Full map: [`core/slash-commands.md`](core/slash-commands.md)  
 Cursor wiring: [`.cursor/commands/`](.cursor/commands/) and [`adapters/cursor/README.md`](adapters/cursor/README.md)
 
 In IDEs without native slash support, type the same text; `AGENTS.md` maps it.
+
+### `/architect-review` (on-demand)
+
+Compare the **current branch** to a **required** base ref. Report-only by
+default. Optional PR/MR comments (GitHub/`gh`, GitLab/`glab`) only when you ask,
+after you choose what to post and confirm a draft.
+
+```text
+/architect-review main
+/architect-review origin/develop
+# then optionally: leave comments on PR 123 (draft + confirm)
+```
+
+Uses the project `code-review-engineer` when present; otherwise
+[`core/templates/code-review-engineer.md`](core/templates/code-review-engineer.md).
+New/upgraded fleets recommend that reviewer via generate-prompt-pack.
 
 ### Direct mode commands
 

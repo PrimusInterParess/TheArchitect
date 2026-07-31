@@ -26,6 +26,17 @@ Generate a project-specific multi-agent prompt pack. Do **not** implement the ap
 
 Specialize agents only for verified or approved providers. Prefer generic capability agents when undecided.
 
+### Default reviewer recommendation
+
+Unless the approved specification **excludes** code review / PR quality, or
+already names an equivalent REVIEWER, **include `code-review-engineer`** in the
+recommended fleet and generated pack so `/architect-review` can override the
+library default with a project-owned reviewer after `/upgrade-architect`.
+
+Align the agent’s quality bar with
+[../templates/code-review-engineer.md](../templates/code-review-engineer.md)
+(paths/contracts may be project-specific; do not invent providers).
+
 ## Existing operating procedures
 
 Before writing agent prompts, read the specification section

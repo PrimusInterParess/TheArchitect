@@ -26,6 +26,7 @@ Also see: [../slash-commands.md](../slash-commands.md)
 | `/extend-fleet`, EXTEND_FLEET | Phase 2 | [extend-fleet.md](extend-fleet.md) |
 | `/audit`, AUDIT_PROMPTS | Phase 2 | [audit-prompts.md](audit-prompts.md) |
 | `/operate`, delegate, handoff | Phase 2 | [operate-agent-system.md](operate-agent-system.md) |
+| `/architect-review`, PR/diff review, leave PR comments | Phase 2 | [architect-review.md](architect-review.md) — library on-demand review |
 | UPDATE_ORCHESTRATOR | Phase 2 | Prefer [extend-fleet.md](extend-fleet.md) or [create-agent.md](create-agent.md) Architect update blocks |
 
 ## First question when mode is unknown

@@ -35,6 +35,7 @@ REQUIRED_CORE = [
     "operate-agent-system.md",
     "upgrade-architect.md",
     "update-context-mapping.md",
+    "architect-review.md",
 ]
 
 REQUIRED_COMMANDS = [
@@ -49,6 +50,7 @@ REQUIRED_COMMANDS = [
     "operate.md",
     "upgrade-architect.md",
     "update-context.md",
+    "architect-review.md",
 ]
 
 REQUIRED_RULES = [

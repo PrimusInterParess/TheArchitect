@@ -155,6 +155,6 @@ repository task mapping, and application implementation happen later through
 
 ## Example agent IDs (not defaults)
 
-`principal-software-architect`, `product-manager`, `ui-ux-designer`, `frontend-engineer`, `backend-engineer`, `database-engineer`, `identity-access-engineer`, `payment-billing-engineer`, `ai-llm-engineer`, `cloud-platform-engineer`, `cicd-engineer`, `security-engineer`, `qa-engineer`, `technical-writer`
+`principal-software-architect`, `product-manager`, `ui-ux-designer`, `frontend-engineer`, `backend-engineer`, `database-engineer`, `identity-access-engineer`, `payment-billing-engineer`, `ai-llm-engineer`, `cloud-platform-engineer`, `cicd-engineer`, `security-engineer`, `qa-engineer`, `code-review-engineer`, `technical-writer`
 
 Specialize only when a provider is verified or approved (e.g. `auth0-identity-engineer`).

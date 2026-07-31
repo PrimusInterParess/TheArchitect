@@ -1,5 +1,30 @@
 # Changelog
 
+## 0.5.0 — 2026-07-31
+
+Library capability release: on-demand **`/architect-review`**. Consumers get the
+command when they update library files (reload IDE adapters if needed). Run
+`/upgrade-architect` in apps that already have a fleet so packs pick up the
+recommended `code-review-engineer`.
+
+### Added
+
+- `core/workflows/architect-review.md` — branch vs required base; structured
+  review; optional GitHub/GitLab comment publish (`gh`/`glab`) after draft
+  confirmation.
+- `core/templates/code-review-engineer.md` — library default REVIEWER prompt
+  (overridden by project fleet reviewer when present).
+- Cursor command + skill: `/architect-review`.
+- Slash map, AGENTS, README, and adapter docs updated.
+- `generate-prompt-pack` recommends `code-review-engineer` unless excluded.
+
+### Upgrade path for existing apps
+
+1. Update The Architect checkout (submodule / pull / `scripts/update-into-project.*`).
+2. Reload the IDE if adapters/commands changed.
+3. Use `/architect-review <base>` immediately (works without a fleet).
+4. Optional: `/upgrade-architect` to add/refresh `code-review-engineer` in the pack.
+
 ## 0.4.0 — 2026-07-30
 
 Library prompt quality release. **Consumers must update library files, then run `/upgrade-architect` in each app that has an `agent-system/` fleet.** Library file update alone does not rewrite generated agent prompts.

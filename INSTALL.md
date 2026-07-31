@@ -98,7 +98,8 @@ then an existing stamp only.
 4. After approval, the pack is generated automatically in `SAVE` mode under
    `agent-system/`. Use `/generate-prompt-pack` only to regenerate or recover.
 5. Run `/operate` for planning or implementation.
-6. After a later library update: update files, then `/upgrade-architect`.
+6. On-demand code review (no fleet required): `/architect-review <base>`.
+7. After a later library update: update files, then `/upgrade-architect`.
 
 ## Updating to a new library version
 
@@ -110,7 +111,7 @@ Bump `VERSION` in this repo when you publish. Consumers update as follows.
 cd /path/to/your/app
 git submodule update --remote vendor/thearchitect
 # or pin a release tag:
-# cd vendor/thearchitect && git fetch && git checkout v0.4.0
+# cd vendor/thearchitect && git fetch && git checkout v0.5.0
 ```
 
 Point IDE instructions at `vendor/thearchitect/AGENTS.md` so you never copy
